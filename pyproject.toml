@@ -84,7 +84,7 @@ pretty = true
 # ---------------------------------------------------------------- pytest
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra --strict-markers"
+addopts = "-ra --strict-markers -m 'not live'"
 markers = [
     "integration: requires a reachable PostgreSQL (RDP_DB_* env vars)",
     "live: hits real third-party websites; excluded by default",
