@@ -38,6 +38,12 @@ flowchart LR
     M --> GF[Grafana<br/>optional]
 ```
 
+| Dashboard: overview | Price explorer | Pipeline health | Airflow DAG |
+|---|---|---|---|
+| ![Overview](docs/images/dashboard-overview.png) | ![Price explorer](docs/images/dashboard-price-explorer.png) | ![Pipeline health](docs/images/dashboard-pipeline-health.png) | ![Airflow](docs/images/airflow-dag.png) |
+
+<sub>Screenshots from a local run in replay mode.</sub>
+
 ## What it demonstrates
 
 | Area | Implementation |

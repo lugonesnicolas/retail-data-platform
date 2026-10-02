@@ -9,7 +9,8 @@ start -> [ingest_api, ingest_web, ingest_dataset] -> dbt_build -> quality_summar
       -> refresh_metrics -> end
 ```
 
-* Ingestion tasks run in parallel and retry with exponential backoff (network sources).
+* One ingestion task per source in `RDP_ENABLED_SOURCES`; they run in parallel and network
+  sources retry with exponential backoff.
 * `dbt_build` runs even if one source failed (`all_done`), so healthy sources still reach
   the marts; the failure is recorded in `ops.source_runs` and fails the run at `end`.
 * `quality_summary` fails on critical quality checks; `refresh_metrics` and `end` still run so
@@ -28,6 +29,15 @@ from airflow.providers.standard.operators.bash import BashOperator
 from airflow.sdk import DAG, TriggerRule
 
 RDP = os.environ.get("RDP_CLI", "rdp")
+KNOWN_SOURCES = ("api", "web", "dataset")
+# Same variable the CLI uses, so the DAG and `rdp pipeline finish` agree on what is expected.
+SOURCES = [
+    source
+    for source in (
+        s.strip() for s in os.environ.get("RDP_ENABLED_SOURCES", "api,web,dataset").split(",")
+    )
+    if source in KNOWN_SOURCES
+]
 _schedule = os.environ.get("RDP_PIPELINE_SCHEDULE", "@daily").strip()
 SCHEDULE = None if _schedule.lower() in {"", "none", "manual"} else _schedule
 
@@ -76,9 +86,13 @@ with DAG(
         "retry_exponential_backoff": True,
         "max_retry_delay": timedelta(minutes=10),
     }
-    ingest_api = rdp_task("ingest_api", "ingest api", **network_retry)
-    ingest_web = rdp_task("ingest_web", "ingest web", **network_retry)
-    ingest_dataset = rdp_task("ingest_dataset", "ingest dataset", retries=0)
+    # Network sources retry with backoff; the local file source fails fast.
+    ingest_tasks = [
+        rdp_task(f"ingest_{source}", f"ingest {source}", **network_retry)
+        if source != "dataset"
+        else rdp_task("ingest_dataset", "ingest dataset", retries=0)
+        for source in SOURCES
+    ]
 
     dbt_build = rdp_task("dbt_build", "transform", trigger_rule=TriggerRule.ALL_DONE, retries=0)
     quality_summary = rdp_task(
@@ -91,5 +105,5 @@ with DAG(
     )
     end = rdp_task("end", "pipeline finish", trigger_rule=TriggerRule.ALL_DONE, retries=0)
 
-    start >> [ingest_api, ingest_web, ingest_dataset] >> dbt_build
+    start >> ingest_tasks >> dbt_build
     dbt_build >> quality_summary >> refresh_metrics >> end

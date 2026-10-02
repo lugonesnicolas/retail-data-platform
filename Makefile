@@ -68,8 +68,12 @@ dbt: ## dbt build (models + tests) via the tools container
 	$(COMPOSE) run --rm tools transform
 
 .PHONY: dbt-docs
-dbt-docs: ## Generate dbt docs (lineage graph) into ./dbt/target
-	uv run dbt docs generate --project-dir dbt --profiles-dir dbt
+WAREHOUSE_ENV = RDP_DB_HOST=127.0.0.1 RDP_DB_PORT=$(POSTGRES_PORT) RDP_DB_NAME=$(WAREHOUSE_DB_NAME) \
+	RDP_DB_USER=$(WAREHOUSE_DB_USER) RDP_DB_PASSWORD=$(WAREHOUSE_DB_PASSWORD)
+
+dbt-docs: ## Generate dbt docs + lineage graph and serve them on http://localhost:8081
+	$(WAREHOUSE_ENV) uv run dbt docs generate --project-dir dbt --profiles-dir dbt
+	$(WAREHOUSE_ENV) uv run dbt docs serve --project-dir dbt --profiles-dir dbt --port 8081 --no-browser
 
 .PHONY: grafana
 grafana: ## Start the optional Grafana (http://localhost:3000)
