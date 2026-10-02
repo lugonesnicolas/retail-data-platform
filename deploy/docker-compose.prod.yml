@@ -1,0 +1,92 @@
+# Production overlay for a single VM. Always used together with the base file:
+#
+#   docker compose -f docker-compose.yml -f deploy/docker-compose.prod.yml up -d --wait
+#
+# (deploy/scripts/*.sh do this for you.) Differences from local:
+#   * no service publishes a host port except Caddy (80/443); PostgreSQL stays internal
+#   * Caddy terminates TLS (automatic Let's Encrypt) and routes by host name
+#   * restart policy "always", bounded json logs, memory limits sized for a 8 GB VM
+
+x-prod: &prod
+  restart: always
+  logging:
+    driver: json-file
+    options: {max-size: "20m", max-file: "5"}
+
+services:
+  postgres:
+    <<: *prod
+    ports: !reset []
+    deploy:
+      resources:
+        limits: {memory: 1g}
+
+  migrate:
+    restart: "no"
+
+  airflow-init:
+    restart: "no"
+
+  airflow-apiserver:
+    <<: *prod
+    ports: !reset []
+    environment:
+      AIRFLOW__API__BASE_URL: https://airflow.${DOMAIN:?}
+      AIRFLOW__API__WORKERS: "2"
+    deploy:
+      resources:
+        limits: {memory: 1536m}
+
+  airflow-scheduler:
+    <<: *prod
+    deploy:
+      resources:
+        limits: {memory: 2g}
+
+  airflow-dag-processor:
+    <<: *prod
+    deploy:
+      resources:
+        limits: {memory: 768m}
+
+  dashboard:
+    <<: *prod
+    ports: !reset []
+    deploy:
+      resources:
+        limits: {memory: 768m}
+
+  grafana:
+    <<: *prod
+    ports: !reset []
+    environment:
+      GF_SERVER_ROOT_URL: https://grafana.${DOMAIN:?}/
+
+  caddy:
+    <<: *prod
+    image: caddy:2.10-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?}
+      ACME_EMAIL: ${ACME_EMAIL:?}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      dashboard:
+        condition: service_healthy
+      airflow-apiserver:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:2019/config/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  caddy-data:
+  caddy-config:
