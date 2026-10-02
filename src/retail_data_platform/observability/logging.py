@@ -19,6 +19,10 @@ import structlog
 _configured = False
 
 
+def _stderr_logger(*_: Any) -> structlog.PrintLogger:
+    return structlog.PrintLogger(file=sys.stderr)
+
+
 def configure_logging(level: str = "INFO", fmt: str = "json") -> None:
     """Configure stdlib logging + structlog once per process."""
     global _configured  # noqa: PLW0603 - process-wide logging setup is intentionally global
@@ -40,8 +44,10 @@ def configure_logging(level: str = "INFO", fmt: str = "json") -> None:
     structlog.configure(
         processors=[*shared, renderer],
         wrapper_class=structlog.make_filtering_bound_logger(logging.getLevelName(level.upper())),
-        logger_factory=structlog.PrintLoggerFactory(file=sys.stderr),
-        cache_logger_on_first_use=True,
+        # Resolve sys.stderr at emit time (not import time) so redirected/replaced streams
+        # - test runners, embedding applications - never receive writes after being closed.
+        logger_factory=_stderr_logger,
+        cache_logger_on_first_use=False,
     )
     # Route noisy third-party stdlib loggers through the same level.
     logging.basicConfig(
