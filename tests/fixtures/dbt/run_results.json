@@ -1,0 +1,10 @@
+{
+  "metadata": {"dbt_version": "1.12.5"},
+  "results": [
+    {"unique_id": "model.retail_data_platform.dim_product", "status": "success", "message": "SELECT 121", "failures": null},
+    {"unique_id": "model.retail_data_platform.mart_product_latest", "status": "error", "message": "relation does not exist", "failures": null},
+    {"unique_id": "test.retail_data_platform.unique_dim_product_product_key.abc", "status": "pass", "message": null, "failures": 0},
+    {"unique_id": "test.retail_data_platform.non_negative_fct_price_observation_price.def", "status": "fail", "message": "Got 2 results, configured to fail if != 0", "failures": 2},
+    {"unique_id": "test.retail_data_platform.value_between_mart_price_comparison_price_change_pct__50___50.ghi", "status": "warn", "message": "Got 1 result, configured to warn if != 0", "failures": 1}
+  ]
+}
