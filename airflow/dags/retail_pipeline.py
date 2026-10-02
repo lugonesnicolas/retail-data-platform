@@ -15,7 +15,10 @@ start -> [ingest_api, ingest_web, ingest_dataset] -> dbt_build -> quality_summar
   the marts; the failure is recorded in `ops.source_runs` and fails the run at `end`.
 * `quality_summary` fails on critical quality checks; `refresh_metrics` and `end` still run so
   the dashboard always reflects the outcome.
-* `end` derives the final status from persisted metadata and fails the DAG run if needed.
+* `end` derives the final status from persisted metadata and fails the DAG run if needed;
+  for a failed run it also emails an alert (when SMTP is configured).
+* Safety net: if the DAG run fails without `end` completing (e.g. `dagrun_timeout`), the DAG
+  failure callback sends the alert. A run is never emailed twice (`ops.pipeline_runs.alerted_at`).
 
 Schedule: `RDP_PIPELINE_SCHEDULE` (cron or preset, default `@daily`; `none` = manual only).
 """
@@ -23,7 +26,9 @@ Schedule: `RDP_PIPELINE_SCHEDULE` (cron or preset, default `@daily`; `none` = ma
 from __future__ import annotations
 
 import os
+import subprocess
 from datetime import UTC, datetime, timedelta
+from typing import Any
 
 from airflow.providers.standard.operators.bash import BashOperator
 from airflow.sdk import DAG, TriggerRule
@@ -43,7 +48,22 @@ SCHEDULE = None if _schedule.lower() in {"", "none", "manual"} else _schedule
 
 # Templated values reach the command through environment variables, never by string
 # interpolation into the shell command: a manually supplied run_id cannot inject shell code.
-RUN_ENV = {"RDP_RUN_ID": "{{ run_id }}", "RDP_RUN_TYPE": "{{ dag_run.run_type }}"}
+RUN_ENV = {
+    "RDP_RUN_ID": "{{ run_id }}",
+    # Airflow 3 renders the enum as "DagRunType.MANUAL"; store just "manual"/"scheduled".
+    "RDP_RUN_TYPE": "{{ dag_run.run_type | string | replace('DagRunType.', '') | lower }}",
+}
+
+
+def alert_on_failure(context: dict[str, Any]) -> None:
+    """DAG failure callback: ask the CLI to email the failure report (deduplicated there)."""
+    run_id = str(context["dag_run"].run_id)
+    # Argument list, no shell: the run id is passed verbatim and cannot inject commands.
+    subprocess.run(  # noqa: S603
+        [RDP, "alert", "send", "--run-id", run_id, "--reason", "Airflow marked the run failed"],
+        check=False,
+        timeout=120,
+    )
 
 
 def rdp_task(task_id: str, args: str, **kwargs: object) -> BashOperator:
@@ -64,6 +84,7 @@ with DAG(
     catchup=False,
     max_active_runs=1,
     dagrun_timeout=timedelta(hours=2),
+    on_failure_callback=alert_on_failure,
     default_args={
         "owner": "data-platform",
         "retries": 1,

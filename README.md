@@ -57,7 +57,7 @@ flowchart LR
 | Transformation | dbt: sources + freshness, staging, conformed intermediate, star schema, marts, incremental fact |
 | Data quality | Ingestion gates, 138 dbt tests (structural, business-rule, custom generic, singular), severities |
 | Orchestration | Airflow 3 (LocalExecutor) DAG with parallel ingestion, backoff retries, failure-tolerant tail |
-| Observability | Structured JSON logs, `ops.*` run/quality tables, ops marts, dashboard, optional Grafana |
+| Observability | Structured JSON logs, `ops.*` run/quality tables, ops marts, dashboard, optional Grafana, email alert per failed run |
 | Testing | 69 pytest tests (unit, fixture-based parsers, PostgreSQL integration, CLI), DAG tests |
 | Delivery | GitHub Actions CI (lint, types, tests, dbt, Terraform, full Docker stack); manual SSH deploy |
 | Deployment | Single VM, Docker Compose prod overlay, Caddy auto-HTTPS, backup/restore scripts |
@@ -125,6 +125,7 @@ make smoke      # checks marts, last run, dashboard and Airflow health
 | Dashboard | http://localhost:8501 | none |
 | Airflow | http://localhost:8080 | `AIRFLOW_ADMIN_USERNAME` / `AIRFLOW_ADMIN_PASSWORD` from `.env` |
 | Grafana (optional, `make grafana`) | http://localhost:3000 | `admin` / `GRAFANA_ADMIN_PASSWORD` |
+| Mailpit (optional, `make mailpit`; catches alert emails locally) | http://localhost:8025 | none |
 
 Without internet access to the source sites, set `RDP_SOURCE_MODE=replay` in `.env` and run
 `make up` again.
@@ -135,6 +136,7 @@ Other commands (`make help` lists them all):
 make pipeline-local   # same pipeline without Airflow (tools container)
 make ingest | make dbt | make migrate
 make logs | make ps
+make alert-test       # send a test failure-alert email (SMTP settings in .env)
 make down             # stop, keep data
 make clean            # stop and delete volumes
 ```
@@ -275,8 +277,7 @@ This design targets thousands of rows per day. At substantially higher volume or
 ## Future improvements
 
 See the [operations runbook](docs/operations.md#known-limitations) for current limitations.
-Next steps by value: alerting on failed runs (e-mail/Slack callback), building images in CI and
-pushing them to GHCR instead of building on the VM, SCD2 snapshots of product attributes (dbt
+Next steps by value: building images in CI and pushing them to GHCR instead of building on the VM, SCD2 snapshots of product attributes (dbt
 snapshots), off-VM backup shipping, and live FX rates as a fourth source.
 
 ## Documentation

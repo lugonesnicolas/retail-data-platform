@@ -6,7 +6,7 @@ from typing import Annotated
 
 import typer
 
-from retail_data_platform import steps
+from retail_data_platform import alerting, steps
 from retail_data_platform.config import get_settings
 from retail_data_platform.database import wait_for_database
 from retail_data_platform.ingestion.pipeline import IngestionFailedError
@@ -18,9 +18,11 @@ app = typer.Typer(help="Retail Data Platform CLI", no_args_is_help=True, add_com
 db_app = typer.Typer(help="Database administration", no_args_is_help=True)
 pipeline_app = typer.Typer(help="Pipeline run lifecycle", no_args_is_help=True)
 quality_app = typer.Typer(help="Data quality", no_args_is_help=True)
+alert_app = typer.Typer(help="Failure alerts by email (SMTP)", no_args_is_help=True)
 app.add_typer(db_app, name="db")
 app.add_typer(pipeline_app, name="pipeline")
 app.add_typer(quality_app, name="quality")
+app.add_typer(alert_app, name="alert")
 
 log = get_logger("rdp.cli")
 
@@ -162,6 +164,37 @@ def pipeline_run(run_id: RunIdOption = None) -> None:
     if outcome.status != "success":
         typer.echo(outcome.error_summary or "", err=True)
         raise typer.Exit(code=1)
+
+
+# --------------------------------------------------------------------------------------- alert
+@alert_app.command("send")
+def alert_send(
+    run_id: Annotated[str, typer.Option("--run-id", help="Pipeline run id")],
+    force: Annotated[bool, typer.Option(help="Send even if already alerted or successful")] = False,
+    reason: Annotated[str | None, typer.Option(help="Extra context included in the email")] = None,
+) -> None:
+    """Email the failure report of a run (at most once per run unless --force)."""
+    try:
+        sent = alerting.notify_pipeline_failure(get_settings(), run_id, force=force, reason=reason)
+    except alerting.AlertingError as exc:
+        typer.echo(f"alert NOT sent: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    typer.echo("alert sent" if sent else "no alert sent (disabled, run succeeded or already sent)")
+
+
+@alert_app.command("test")
+def alert_test() -> None:
+    """Send a test email to verify the SMTP configuration."""
+    settings = get_settings()
+    if not settings.alerting_enabled:
+        typer.echo("alerting is not configured: set RDP_SMTP_HOST and RDP_ALERT_EMAIL_TO", err=True)
+        raise typer.Exit(code=1)
+    try:
+        alerting.send_test_email(settings)
+    except alerting.AlertingError as exc:
+        typer.echo(f"test email NOT sent: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    typer.echo(f"test email sent to {', '.join(settings.alert_email_to)}")
 
 
 # --------------------------------------------------------------------------------------- smoke

@@ -81,6 +81,19 @@ class Settings(BaseSettings):
     # --- dataset source ---------------------------------------------------------------------
     dataset_path: Path = Path("data/sample/retail_products.csv")
 
+    # --- failure alerts (email via SMTP; disabled unless host and recipients are set) --------
+    smtp_host: str | None = None
+    smtp_port: int = 587
+    smtp_user: str | None = None
+    smtp_password: SecretStr = SecretStr("")
+    smtp_security: str = Field(default="starttls", pattern="^(starttls|ssl|none)$")
+    smtp_timeout_seconds: float = Field(default=15.0, gt=0)
+    alert_email_from: str | None = None
+    alert_email_to: Annotated[list[str], NoDecode] = Field(default_factory=list)
+    # Public URLs used only to build links in alert emails.
+    airflow_url: str | None = None
+    dashboard_url: str | None = None
+
     # --- paths ------------------------------------------------------------------------------
     fixtures_dir: Path = Path("data/fixtures")
     dbt_project_dir: Path = Path("dbt")
@@ -89,7 +102,7 @@ class Settings(BaseSettings):
     dbt_target_path: Path = Path("dbt/target")
     dbt_log_path: Path = Path("dbt/logs")
 
-    @field_validator("enabled_sources", "web_categories", mode="before")
+    @field_validator("enabled_sources", "web_categories", "alert_email_to", mode="before")
     @classmethod
     def _split_csv(cls, value: object) -> object:
         if isinstance(value, str):
@@ -103,6 +116,18 @@ class Settings(BaseSettings):
         if unknown:
             raise ValueError(f"unknown sources in RDP_ENABLED_SOURCES: {sorted(unknown)}")
         return value
+
+    @field_validator("smtp_host", "smtp_user", "alert_email_from", "airflow_url", "dashboard_url")
+    @classmethod
+    def _blank_is_unset(cls, value: str | None) -> str | None:
+        # Compose passes unset optional variables as empty strings.
+        if value is None:
+            return None
+        return value.strip() or None
+
+    @property
+    def alerting_enabled(self) -> bool:
+        return bool(self.smtp_host and self.alert_email_to)
 
     @property
     def conninfo(self) -> str:

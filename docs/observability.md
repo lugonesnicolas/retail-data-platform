@@ -14,6 +14,7 @@ PostgreSQL and surfaced through the marts.
 | Service health | Docker healthchecks on every long-running service; `rdp smoke`; `deploy/scripts/healthcheck.sh` |
 | Orchestration | Airflow UI (grid, durations, retries, task logs) |
 | Dashboards | Streamlit **Pipeline Health** page; optional Grafana "Retail Data Platform - Operations" |
+| Alerts | One email per failed run via SMTP (see [Alerting](#alerting-email)) |
 
 ## Structured logs
 
@@ -85,8 +86,49 @@ time-series, and those already live in PostgreSQL with full context. Prometheus 
 justified for host and container metrics at a larger scale (node-exporter or cAdvisor), or for
 alerting rules.
 
-## Alerting (not implemented)
+## Alerting (email)
 
-Failures are visible (failed DAG run, `critical` health, dashboard), but nothing is pushed. The
-cheapest next step is an Airflow `on_failure_callback` on the `end` task that posts
-`ops.pipeline_runs.error_summary` to Slack or e-mail.
+When a pipeline run fails, the platform sends **one** plain-text email: the run id, timings and
+row counts, what failed (`error_summary`), the failed sources with their error types, the failing
+quality checks (critical first), links to the Airflow run and the dashboard, and the command to
+investigate (`rdp quality summarize --run-id …`).
+
+```mermaid
+flowchart LR
+    END[end task<br/>rdp pipeline finish] -- status failed --> N[notify_pipeline_failure]
+    CB[DAG on_failure_callback<br/>rdp alert send] --> N
+    N --> C{claim<br/>ops.pipeline_runs.alerted_at}
+    C -- first caller --> SMTP[SMTP server] --> MAIL[(inbox)]
+    C -- already claimed --> SKIP[skip: already sent]
+    SMTP -. error .-> REL[release claim<br/>log alert.failed]
+```
+
+- **Two triggers, one email.** The `end` task sends the alert for any failed run. The DAG-level
+  `on_failure_callback` is a safety net for runs that fail without reaching `end` (for example a
+  `dagrun_timeout`). Both go through an atomic claim on `ops.pipeline_runs.alerted_at`, so a run
+  is emailed at most once. Verified end to end: on a forced failure the `end` task sent the email
+  and the callback logged `alert.skipped reason="already sent"`.
+- **Never masks the result.** An SMTP error is logged as `alert.failed`. The run keeps its
+  status, and the claim is released so `rdp alert send --run-id <id>` can retry.
+- **Optional.** Without `RDP_SMTP_HOST` and `RDP_ALERT_EMAIL_TO`, alerting is a logged no-op.
+- `mart_pipeline_health.alerted_at` (and the dashboard's runs table) show when each alert went out.
+
+Configuration (`.env`):
+
+| Variable | Example | Notes |
+|---|---|---|
+| `RDP_SMTP_HOST` / `RDP_SMTP_PORT` | `smtp.gmail.com` / `587` | |
+| `RDP_SMTP_SECURITY` | `starttls` | `starttls` (587), `ssl` (465) or `none` (local catcher only) |
+| `RDP_SMTP_USER` / `RDP_SMTP_PASSWORD` | `you@gmail.com` / App Password | Gmail requires 2FA and an App Password |
+| `RDP_ALERT_EMAIL_FROM` | `alerts@yourdomain` | defaults to `RDP_SMTP_USER` |
+| `RDP_ALERT_EMAIL_TO` | `you@gmail.com,team@x.com` | comma-separated |
+| `RDP_AIRFLOW_URL` / `RDP_DASHBOARD_URL` | `https://airflow.DOMAIN` / `https://DOMAIN` | links in the email; set automatically in production |
+
+Commands:
+
+```bash
+make alert-test                                  # rdp alert test: send a test email
+docker compose run --rm tools alert send --run-id <run_id>          # (re)send for a failed run
+docker compose run --rm tools alert send --run-id <run_id> --force  # resend even if already sent
+make mailpit                                     # local SMTP catcher, UI on http://localhost:8025
+```

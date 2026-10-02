@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
@@ -14,6 +15,15 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES_DIR = REPO_ROOT / "data" / "fixtures"
 DATASET_PATH = REPO_ROOT / "data" / "sample" / "retail_products.csv"
 FIXED_NOW = datetime(2026, 10, 1, 12, 0, tzinfo=UTC)
+
+
+@pytest.fixture(autouse=True)
+def _isolate_from_developer_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Tests must not depend on the developer's RDP_* variables (e.g. exported from .env by
+    make). RDP_TEST_DB_* is kept: it only tells integration tests where PostgreSQL is."""
+    for name in list(os.environ):
+        if name.startswith("RDP_") and not name.startswith("RDP_TEST_"):
+            monkeypatch.delenv(name)
 
 
 @pytest.fixture

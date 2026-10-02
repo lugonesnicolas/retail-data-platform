@@ -65,3 +65,10 @@ def test_run_id_is_not_interpolated_into_shell(dagbag: DagBag) -> None:
     for task in dag.tasks:
         assert "{{" not in task.bash_command
         assert task.env["RDP_RUN_ID"] == "{{ run_id }}"
+
+
+def test_failed_runs_trigger_an_alert(dagbag: DagBag) -> None:
+    dag = dagbag.dags["retail_pipeline"]
+    callbacks = dag.on_failure_callback
+    callbacks = callbacks if isinstance(callbacks, list) else [callbacks]
+    assert any(getattr(cb, "__name__", "") == "alert_on_failure" for cb in callbacks)

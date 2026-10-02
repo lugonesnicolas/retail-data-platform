@@ -152,6 +152,54 @@ class WarehouseRepository:
             run_id, status, rows_extracted, rows_loaded, rows_rejected, error_summary
         )
 
+    # ------------------------------------------------------------------ alerts
+    def claim_alert(self, run_id: str) -> bool:
+        """Atomically mark the run as alerted; True only for the first caller."""
+        row = self.conn.execute(
+            "update ops.pipeline_runs set alerted_at = now() "
+            "where run_id = %s and alerted_at is null returning run_id",
+            (run_id,),
+        ).fetchone()
+        return row is not None
+
+    def release_alert(self, run_id: str) -> None:
+        """Undo a claim when sending failed, so a later attempt can retry."""
+        self.conn.execute(
+            "update ops.pipeline_runs set alerted_at = null where run_id = %s", (run_id,)
+        )
+
+    def pipeline_run(self, run_id: str) -> dict[str, Any] | None:
+        cursor = self.conn.execute(
+            """
+            select run_id, pipeline, trigger, status, started_at, finished_at, duration_seconds,
+                   rows_extracted, rows_loaded, rows_rejected, error_summary
+              from ops.pipeline_runs
+             where run_id = %s
+            """,
+            (run_id,),
+        )
+        row = cursor.fetchone()
+        if row is None:
+            return None
+        columns = [column.name for column in cursor.description or []]
+        return dict(zip(columns, row, strict=True))
+
+    def failed_source_runs(self, run_id: str) -> list[tuple[str, str | None, str | None]]:
+        """``(source, error_type, error_summary)`` of the latest failed attempt per source."""
+        rows = self.conn.execute(
+            """
+            select source, error_type, error_summary
+              from (select distinct on (source) source, status, error_type, error_summary
+                      from ops.source_runs
+                     where pipeline_run_id = %s
+                     order by source, started_at desc) as latest
+             where status = 'failed'
+             order by source
+            """,
+            (run_id,),
+        ).fetchall()
+        return [(source, error_type, summary) for source, error_type, summary in rows]
+
     # ------------------------------------------------------------------ source runs
     def start_source_run(
         self, *, source: SourceName, pipeline_run_id: str | None, source_mode: str

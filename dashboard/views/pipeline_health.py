@@ -11,7 +11,7 @@ runs = load(
     """
     select run_id, trigger, status, health, started_at, finished_at, duration_seconds,
            rows_extracted, rows_loaded, rows_rejected, failed_source_runs,
-           critical_failures, warnings, checks_total, error_summary
+           critical_failures, warnings, checks_total, alerted_at, error_summary
     from mart.mart_pipeline_health
     order by started_at desc
     limit 50
@@ -31,6 +31,7 @@ st.dataframe(
         "duration_seconds": st.column_config.NumberColumn("duration s", format="%.1f"),
         "started_at": st.column_config.DatetimeColumn("started", format="YYYY-MM-DD HH:mm:ss"),
         "finished_at": st.column_config.DatetimeColumn("finished", format="YYYY-MM-DD HH:mm:ss"),
+        "alerted_at": st.column_config.DatetimeColumn("alert sent", format="YYYY-MM-DD HH:mm:ss"),
     },
 )
 

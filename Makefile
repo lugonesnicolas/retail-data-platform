@@ -32,11 +32,11 @@ up: ## Start the platform and wait until every service is healthy
 
 .PHONY: down
 down: ## Stop the platform (data volumes are kept)
-	$(COMPOSE) --profile observability --profile tools down
+	$(COMPOSE) --profile observability --profile tools --profile mail down
 
 .PHONY: clean
 clean: ## Stop the platform and DELETE all data volumes
-	$(COMPOSE) --profile observability --profile tools down -v --remove-orphans
+	$(COMPOSE) --profile observability --profile tools --profile mail down -v --remove-orphans
 
 .PHONY: ps
 ps: ## Show service status
@@ -74,6 +74,14 @@ WAREHOUSE_ENV = RDP_DB_HOST=127.0.0.1 RDP_DB_PORT=$(POSTGRES_PORT) RDP_DB_NAME=$
 dbt-docs: ## Generate dbt docs + lineage graph and serve them on http://localhost:8081
 	$(WAREHOUSE_ENV) uv run dbt docs generate --project-dir dbt --profiles-dir dbt
 	$(WAREHOUSE_ENV) uv run dbt docs serve --project-dir dbt --profiles-dir dbt --port 8081 --no-browser
+
+.PHONY: mailpit
+mailpit: ## Start the local SMTP catcher for testing alerts (http://localhost:8025)
+	$(COMPOSE) --profile mail up -d mailpit
+
+.PHONY: alert-test
+alert-test: ## Send a test alert email with the SMTP settings from .env
+	$(COMPOSE) run --rm tools alert test
 
 .PHONY: grafana
 grafana: ## Start the optional Grafana (http://localhost:3000)

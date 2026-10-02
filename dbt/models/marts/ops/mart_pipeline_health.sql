@@ -44,7 +44,8 @@ select
         when coalesce(q.warnings, 0) > 0 then 'warning'
         else 'healthy'
     end                                 as health,
-    p.error_summary
+    p.error_summary,
+    p.alerted_at
 from {{ source('ops', 'pipeline_runs') }} as p
 left join quality as q on q.pipeline_run_id = p.run_id
 left join sources as s on s.pipeline_run_id = p.run_id

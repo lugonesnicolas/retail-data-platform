@@ -22,6 +22,16 @@ x-warehouse-env: &warehouse-env
   RDP_LOG_LEVEL: ${RDP_LOG_LEVEL:-INFO}
   RDP_LOG_FORMAT: json
   RDP_DBT_TARGET: ${RDP_DBT_TARGET:-dev}
+  # Failure alerts by email - disabled while RDP_SMTP_HOST / RDP_ALERT_EMAIL_TO are empty.
+  RDP_SMTP_HOST: ${RDP_SMTP_HOST:-}
+  RDP_SMTP_PORT: ${RDP_SMTP_PORT:-587}
+  RDP_SMTP_SECURITY: ${RDP_SMTP_SECURITY:-starttls}
+  RDP_SMTP_USER: ${RDP_SMTP_USER:-}
+  RDP_SMTP_PASSWORD: ${RDP_SMTP_PASSWORD:-}
+  RDP_ALERT_EMAIL_FROM: ${RDP_ALERT_EMAIL_FROM:-}
+  RDP_ALERT_EMAIL_TO: ${RDP_ALERT_EMAIL_TO:-}
+  RDP_AIRFLOW_URL: ${RDP_AIRFLOW_URL:-http://localhost:8080}
+  RDP_DASHBOARD_URL: ${RDP_DASHBOARD_URL:-http://localhost:8501}
 
 x-airflow-common: &airflow-common
   image: ${IMAGE_PREFIX:-rdp}-airflow:${IMAGE_TAG:-latest}
@@ -214,6 +224,15 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
+
+  # Local SMTP catcher for testing alerts without real credentials (web UI on :8025).
+  # Use RDP_SMTP_HOST=mailpit RDP_SMTP_PORT=1025 RDP_SMTP_SECURITY=none.
+  mailpit:
+    image: axllent/mailpit:${MAILPIT_VERSION:-v1.27}
+    profiles: ["mail"]
+    ports:
+      - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"
     restart: unless-stopped
 
 volumes:

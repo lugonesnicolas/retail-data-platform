@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import UTC, datetime
 
+from retail_data_platform import alerting
 from retail_data_platform.config import Settings
 from retail_data_platform.database import (
     PipelineOutcome,
@@ -155,7 +156,18 @@ def finish_pipeline(settings: Settings, run_id: str) -> PipelineOutcome:
             rows_rejected=outcome.rows_rejected,
             error_summary=outcome.error_summary,
         )
-        return outcome
+    if outcome.status == "failed":
+        try:
+            alerting.notify_pipeline_failure(settings, run_id)
+        except Exception as exc:
+            # Alerting must never change or hide the pipeline's own outcome.
+            log.error(
+                "alert.failed",
+                run_id=run_id,
+                exception_type=type(exc).__name__,
+                error=str(exc)[:300],
+            )
+    return outcome
 
 
 def run_all(settings: Settings, run_id: str) -> PipelineOutcome:

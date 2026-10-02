@@ -39,12 +39,18 @@ services:
 
   airflow-scheduler:
     <<: *prod
+    environment:
+      RDP_AIRFLOW_URL: https://airflow.${DOMAIN:?}
+      RDP_DASHBOARD_URL: https://${DOMAIN:?}
     deploy:
       resources:
         limits: {memory: 2g}
 
   airflow-dag-processor:
     <<: *prod
+    environment:
+      RDP_AIRFLOW_URL: https://airflow.${DOMAIN:?}
+      RDP_DASHBOARD_URL: https://${DOMAIN:?}
     deploy:
       resources:
         limits: {memory: 768m}

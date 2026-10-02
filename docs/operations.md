@@ -39,6 +39,22 @@ selected), or trigger a new run.
 historical date cannot be re-fetched. `catchup=False` is intentional. History accumulates one
 observation per day going forward. The CSV dataset carries its own `observed_at` values.
 
+## Failure alerts
+
+Failed runs send one email (configuration and design in
+[observability.md](observability.md#alerting-email)). To set it up with Gmail:
+
+1. Enable 2-step verification on the Google account, then create an **App Password**
+   (Google Account → Security → App passwords).
+2. In `.env`: `RDP_SMTP_HOST=smtp.gmail.com`, `RDP_SMTP_PORT=587`, `RDP_SMTP_SECURITY=starttls`,
+   `RDP_SMTP_USER=<you@gmail.com>`, `RDP_SMTP_PASSWORD=<app password>`,
+   `RDP_ALERT_EMAIL_TO=<recipients>`.
+3. Apply and test: `docker compose up -d` (prod: `deploy/scripts/deploy.sh`), then
+   `make alert-test`.
+
+If an alert was not delivered (`alert.failed` in the logs), fix the SMTP settings and resend with
+`docker compose run --rm tools alert send --run-id <run_id>`.
+
 ## Failure scenarios
 
 ### A source is down or slow (`ingest_api` / `ingest_web` failed)
@@ -115,8 +131,8 @@ later requires the `alter role` above.
 
 ## Known limitations
 
-- No push alerting. Failures are visible in Airflow and on the dashboard, but nothing notifies
-  anyone.
+- Alerts cover failed runs only (email). A source that slowly degrades without failing (e.g.
+  growing rejects below the threshold) shows up on the dashboard but does not trigger an email.
 - Single VM: no high availability. Recovery is restore-from-backup or rebuild-and-re-run.
 - Static FX rates for cross-currency comparisons.
 - Live scraping depends on books.toscrape.com and dummyjson.com staying up and stable. Replay

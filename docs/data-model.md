@@ -92,7 +92,7 @@ inside one transaction. Consequences:
 
 | Table | Grain | Key columns |
 |---|---|---|
-| `ops.pipeline_runs` | one pipeline run | `run_id` (Airflow run id), `status`, `started_at`, `finished_at`, `duration_seconds` (generated), row totals, `error_summary` |
+| `ops.pipeline_runs` | one pipeline run | `run_id` (Airflow run id), `status`, `started_at`, `finished_at`, `duration_seconds` (generated), row totals, `error_summary`, `alerted_at` (failure email sent) |
 | `ops.source_runs` | one source ingestion attempt | `source_run_id`, `pipeline_run_id`, `source`, `source_mode`, `status`, rows extracted/valid/loaded/duplicate/rejected, `http_requests`, `error_type`, `error_summary`, `duration_seconds` |
 | `ops.data_quality_results` | one check outcome | `check_name`, `layer` (ingestion/dbt/freshness), `severity`, `status`, `observed_value`, `threshold`, `details` |
 | `ops.schema_migrations` | one applied migration | `version`, `checksum`, `applied_at` |

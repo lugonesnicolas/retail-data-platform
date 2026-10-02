@@ -22,6 +22,8 @@ models:
           - accepted_values:
               arguments:
                 values: [running, abandoned, critical, warning, healthy]
+      - name: alerted_at
+        description: When the failure alert email was sent (null = no alert sent).
 
   - name: mart_source_run_history
     description: Every source ingestion run with row counts, duration and errors.

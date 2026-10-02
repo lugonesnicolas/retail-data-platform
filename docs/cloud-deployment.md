@@ -135,6 +135,14 @@ checkout of the ref (or fast-forward pull) → `docker compose config` → `dock
 before anything else starts, then the health checks run and images older than 7 days are
 pruned. Re-running it is safe.
 
+### Failure alerts
+
+Set the `RDP_SMTP_*` and `RDP_ALERT_EMAIL_TO` variables in the VM's `.env` (Gmail example in
+[operations.md](operations.md#failure-alerts)), redeploy, and run `make alert-test` on the VM.
+The production overlay already points the email links at `https://airflow.DOMAIN` and
+`https://DOMAIN`. Port 587 outbound must be allowed (it is by default on Azure; some providers
+block SMTP on new accounts).
+
 ## Production security assumptions
 
 - Only 22 (restricted to admin CIDRs), 80 and 443 are reachable. This is enforced twice: by the
