@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build / coverage
+dist/
+build/
+htmlcov/
+.coverage
+
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Airflow local state
+airflow/logs/
+airflow/*.db
+
+# Data / local runtime
+data/
+tmp/
