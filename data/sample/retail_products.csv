@@ -1,0 +1,63 @@
+source_product_id,product_name,brand,category,price,currency,availability,source,observed_at,product_url,rating
+HE-1001,iPhone 13 Pro 128GB,Apple,smartphones,1007.04,USD,in stock,harbor_electronics,2026-09-01T09:00:00Z,https://example.com/harbor_electronics/products/he-1001,4.6
+HE-1001,iPhone 13 Pro 128GB,Apple,smartphones,1038.51,USD,in stock,harbor_electronics,2026-09-15T09:00:00Z,https://example.com/harbor_electronics/products/he-1001,4.6
+HE-1001,iPhone 13 Pro 128GB,Apple,smartphones,1069.98,USD,low stock,harbor_electronics,2026-09-29T09:00:00Z,https://example.com/harbor_electronics/products/he-1001,4.6
+HE-1002,Galaxy S23 256GB,Samsung,smartphones,925.97,USD,in stock,harbor_electronics,2026-09-15T09:00:00Z,https://example.com/harbor_electronics/products/he-1002,4.5
+HE-1002,Galaxy S23 256GB,Samsung,smartphones,872.03,USD,low stock,harbor_electronics,2026-09-29T09:00:00Z,https://example.com/harbor_electronics/products/he-1002,4.5
+HE-1003,Pixel 8,Google,smartphones,705.99,USD,low stock,harbor_electronics,2026-09-15T09:00:00Z,https://example.com/harbor_electronics/products/he-1003,4.4
+HE-1003,Pixel 8,Google,smartphones,726.96,USD,in stock,harbor_electronics,2026-09-29T09:00:00Z,https://example.com/harbor_electronics/products/he-1003,4.4
+HE-1004,Oppo F19 Pro Plus,Oppo,smartphones,375.21,USD,in stock,harbor_electronics,2026-09-01T09:00:00Z,https://example.com/harbor_electronics/products/he-1004,4.1
+HE-1004,Oppo F19 Pro Plus,Oppo,smartphones,386.58,USD,out of stock,harbor_electronics,2026-09-15T09:00:00Z,https://example.com/harbor_electronics/products/he-1004,4.1
+HE-1004,Oppo F19 Pro Plus,Oppo,smartphones,363.84,USD,in stock,harbor_electronics,2026-09-29T09:00:00Z,https://example.com/harbor_electronics/products/he-1004,4.1
+HE-1101,MacBook Pro 14 M3,Apple,laptops,1939.03,USD,out of stock,harbor_electronics,2026-09-15T09:00:00Z,https://example.com/harbor_electronics/products/he-1101,4.8
+HE-1101,MacBook Pro 14 M3,Apple,laptops,1999.00,USD,in stock,harbor_electronics,2026-09-29T09:00:00Z,https://example.com/harbor_electronics/products/he-1101,4.8
+HE-1102,XPS 13 9340,Dell,laptops,1454.96,USD,in stock,harbor_electronics,2026-09-15T09:00:00Z,https://example.com/harbor_electronics/products/he-1102,4.3
+HE-1102,XPS 13 9340,Dell,laptops,1371.02,USD,in stock,harbor_electronics,2026-09-29T09:00:00Z,https://example.com/harbor_electronics/products/he-1102,4.3
+HE-1103,Yoga Slim 7,Lenovo,laptops,1069.98,USD,in stock,harbor_electronics,2026-09-01T09:00:00Z,https://example.com/harbor_electronics/products/he-1103,4.2
+HE-1103,Yoga Slim 7,Lenovo,laptops,1007.04,USD,low stock,harbor_electronics,2026-09-15T09:00:00Z,https://example.com/harbor_electronics/products/he-1103,4.2
+HE-1103,Yoga Slim 7,Lenovo,laptops,1038.51,USD,in stock,harbor_electronics,2026-09-29T09:00:00Z,https://example.com/harbor_electronics/products/he-1103,4.2
+HE-1104,Zenbook 14 OLED,Asus,laptops,1099.00,USD,low stock,harbor_electronics,2026-09-15T09:00:00Z,https://example.com/harbor_electronics/products/he-1104,4.4
+HE-1104,Zenbook 14 OLED,Asus,laptops,1131.97,USD,in stock,harbor_electronics,2026-09-29T09:00:00Z,https://example.com/harbor_electronics/products/he-1104,4.4
+NM-2001,Chanel Coco Noir 100ml,Chanel,fragrances,139.16,EUR,in stock,northwind_market,2026-09-15T09:00:00Z,https://example.com/northwind_market/products/nm-2001,4.7
+NM-2001,Chanel Coco Noir 100ml,Chanel,fragrances,143.42,EUR,out of stock,northwind_market,2026-09-29T09:00:00Z,https://example.com/northwind_market/products/nm-2001,4.7
+NM-2002,Dior J'adore 50ml,Dior,fragrances,94.56,EUR,out of stock,northwind_market,2026-09-01T09:00:00Z,https://example.com/northwind_market/products/nm-2002,4.6
+NM-2002,Dior J'adore 50ml,Dior,fragrances,97.52,EUR,in stock,northwind_market,2026-09-15T09:00:00Z,https://example.com/northwind_market/products/nm-2002,4.6
+NM-2002,Dior J'adore 50ml,Dior,fragrances,100.47,EUR,in stock,northwind_market,2026-09-29T09:00:00Z,https://example.com/northwind_market/products/nm-2002,4.6
+NM-2003,CK One 200ml,Calvin Klein,fragrances,46.25,EUR,in stock,northwind_market,2026-09-15T09:00:00Z,https://example.com/northwind_market/products/nm-2003,4.2
+NM-2003,CK One 200ml,Calvin Klein,fragrances,43.55,EUR,in stock,northwind_market,2026-09-29T09:00:00Z,https://example.com/northwind_market/products/nm-2003,4.2
+NM-2101,Lash Princess Mascara,Essence,beauty,5.00,EUR,in stock,northwind_market,2026-09-15T09:00:00Z,https://example.com/northwind_market/products/nm-2101,3.9
+NM-2101,Lash Princess Mascara,Essence,beauty,5.15,EUR,low stock,northwind_market,2026-09-29T09:00:00Z,https://example.com/northwind_market/products/nm-2101,3.9
+NM-2102,Matte Red Lipstick,Chic Cosmetics,beauty,11.38,EUR,low stock,northwind_market,2026-09-01T09:00:00Z,https://example.com/northwind_market/products/nm-2102,4.0
+NM-2102,Matte Red Lipstick,Chic Cosmetics,beauty,11.73,EUR,in stock,northwind_market,2026-09-15T09:00:00Z,https://example.com/northwind_market/products/nm-2102,4.0
+NM-2102,Matte Red Lipstick,Chic Cosmetics,beauty,11.04,EUR,out of stock,northwind_market,2026-09-29T09:00:00Z,https://example.com/northwind_market/products/nm-2102,4.0
+NM-2201,Saarinen Conference Chair,Knoll,furniture,513.13,EUR,in stock,northwind_market,2026-09-15T09:00:00Z,https://example.com/northwind_market/products/nm-2201,4.5
+NM-2201,Saarinen Conference Chair,Knoll,furniture,529.00,EUR,out of stock,northwind_market,2026-09-29T09:00:00Z,https://example.com/northwind_market/products/nm-2201,4.5
+NM-2202,Bedside Table Cherry,Furniture Co.,furniture,290.16,EUR,out of stock,northwind_market,2026-09-15T09:00:00Z,https://example.com/northwind_market/products/nm-2202,
+NM-2202,Bedside Table Cherry,Furniture Co.,furniture,273.42,EUR,in stock,northwind_market,2026-09-29T09:00:00Z,https://example.com/northwind_market/products/nm-2202,
+GG-3001,Organic Apples 1kg,Greenleaf,groceries,3.56,EUR,in stock,greenleaf_grocers,2026-09-01T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3001,4.3
+GG-3001,Organic Apples 1kg,Greenleaf,groceries,3.35,EUR,in stock,greenleaf_grocers,2026-09-15T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3001,4.3
+GG-3001,Organic Apples 1kg,Greenleaf,groceries,3.46,EUR,low stock,greenleaf_grocers,2026-09-29T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3001,4.3
+GG-3002,Free Range Eggs (12),Greenleaf,groceries,4.29,EUR,in stock,greenleaf_grocers,2026-09-15T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3002,4.6
+GG-3002,Free Range Eggs (12),Greenleaf,groceries,4.42,EUR,low stock,greenleaf_grocers,2026-09-29T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3002,4.6
+GG-3003,Extra Virgin Olive Oil 1L,Oliva,groceries,9.79,EUR,low stock,greenleaf_grocers,2026-09-15T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3003,4.7
+GG-3003,Extra Virgin Olive Oil 1L,Oliva,groceries,10.09,EUR,in stock,greenleaf_grocers,2026-09-29T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3003,4.7
+GG-3004,Wildflower Honey 500g,BeeHappy,groceries,7.19,EUR,in stock,greenleaf_grocers,2026-09-01T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3004,4.8
+GG-3004,Wildflower Honey 500g,BeeHappy,groceries,7.42,EUR,out of stock,greenleaf_grocers,2026-09-15T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3004,4.8
+GG-3004,Wildflower Honey 500g,BeeHappy,groceries,7.64,EUR,in stock,greenleaf_grocers,2026-09-29T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3004,4.8
+GG-3005,Kiwi Pack 6,,groceries,3.08,EUR,out of stock,greenleaf_grocers,2026-09-15T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3005,
+GG-3005,Kiwi Pack 6,,groceries,2.90,EUR,in stock,greenleaf_grocers,2026-09-29T09:00:00Z,https://example.com/greenleaf_grocers/products/gg-3005,
+PB-4001,Under the Tuscan Sun,Broadway Books,Travel,13.12,GBP,in stock,pagebound_books,2026-09-15T09:00:00Z,https://example.com/pagebound_books/products/pb-4001,4.1
+PB-4001,Under the Tuscan Sun,Broadway Books,Travel,13.51,GBP,in stock,pagebound_books,2026-09-29T09:00:00Z,https://example.com/pagebound_books/products/pb-4001,4.1
+PB-4002,A Year in Provence,Penguin,Travel,9.89,GBP,in stock,pagebound_books,2026-09-01T09:00:00Z,https://example.com/pagebound_books/products/pb-4002,4.3
+PB-4002,A Year in Provence,Penguin,Travel,10.19,GBP,low stock,pagebound_books,2026-09-15T09:00:00Z,https://example.com/pagebound_books/products/pb-4002,4.3
+PB-4002,A Year in Provence,Penguin,Travel,9.59,GBP,in stock,pagebound_books,2026-09-29T09:00:00Z,https://example.com/pagebound_books/products/pb-4002,4.3
+PB-4003,Where the Sidewalk Ends,HarperCollins,Poetry,14.54,GBP,low stock,pagebound_books,2026-09-15T09:00:00Z,https://example.com/pagebound_books/products/pb-4003,4.9
+PB-4003,Where the Sidewalk Ends,HarperCollins,Poetry,14.99,GBP,in stock,pagebound_books,2026-09-29T09:00:00Z,https://example.com/pagebound_books/products/pb-4003,4.9
+PB-4004,The Lean Startup,Crown Business,Business,17.67,GBP,in stock,pagebound_books,2026-09-15T09:00:00Z,https://example.com/pagebound_books/products/pb-4004,4.4
+PB-4004,The Lean Startup,Crown Business,Business,16.65,GBP,out of stock,pagebound_books,2026-09-29T09:00:00Z,https://example.com/pagebound_books/products/pb-4004,4.4
+PB-4005,Sharp Objects,Weidenfeld & Nicolson,Mystery,9.17,GBP,out of stock,pagebound_books,2026-09-01T09:00:00Z,https://example.com/pagebound_books/products/pb-4005,4.0
+PB-4005,Sharp Objects,Weidenfeld & Nicolson,Mystery,8.63,GBP,in stock,pagebound_books,2026-09-15T09:00:00Z,https://example.com/pagebound_books/products/pb-4005,4.0
+PB-4005,Sharp Objects,Weidenfeld & Nicolson,Mystery,8.90,GBP,in stock,pagebound_books,2026-09-29T09:00:00Z,https://example.com/pagebound_books/products/pb-4005,4.0
+HE-9001,Refurbished Tablet,Acme,tablets,-15.00,USD,in stock,harbor_electronics,2026-09-29T09:00:00Z,,
+NM-9002,,Unknown,beauty,7.50,EUR,in stock,northwind_market,2026-09-29T09:00:00Z,,
+GG-9003,Sparkling Water 6x1L,Fizz,groceries,N/A,EUR,in stock,greenleaf_grocers,2026-09-29T09:00:00Z,,

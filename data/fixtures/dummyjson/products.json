@@ -1,0 +1,1474 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Essence Mascara Lash Princess",
+      "description": "Essence Mascara Lash Princess - product description.",
+      "category": "beauty",
+      "price": 9.99,
+      "discountPercentage": 7.17,
+      "rating": 2.56,
+      "stock": 99,
+      "tags": [
+        "beauty"
+      ],
+      "sku": "BEAU-1E784E1F",
+      "weight": 2,
+      "dimensions": {
+        "width": 10.37,
+        "height": 5.21,
+        "depth": 3.11
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000007919",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/1/thumbnail.webp",
+      "brand": "Essence"
+    },
+    {
+      "id": 2,
+      "title": "Eyeshadow Palette with Mirror",
+      "description": "Eyeshadow Palette with Mirror - product description.",
+      "category": "beauty",
+      "price": 19.99,
+      "discountPercentage": 5.5,
+      "rating": 2.86,
+      "stock": 34,
+      "tags": [
+        "beauty"
+      ],
+      "sku": "BEAU-43AA9294",
+      "weight": 3,
+      "dimensions": {
+        "width": 10.74,
+        "height": 5.42,
+        "depth": 3.22
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000015838",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/2/thumbnail.webp",
+      "brand": "Glamour Beauty"
+    },
+    {
+      "id": 3,
+      "title": "Powder Canister",
+      "description": "Powder Canister - product description.",
+      "category": "beauty",
+      "price": 14.99,
+      "discountPercentage": 18.14,
+      "rating": 4.64,
+      "stock": 89,
+      "tags": [
+        "beauty"
+      ],
+      "sku": "BEAU-E99B5C02",
+      "weight": 4,
+      "dimensions": {
+        "width": 11.11,
+        "height": 5.63,
+        "depth": 3.33
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000023757",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/3/thumbnail.webp",
+      "brand": "Velvet Touch"
+    },
+    {
+      "id": 4,
+      "title": "Red Lipstick",
+      "description": "Red Lipstick - product description.",
+      "category": "beauty",
+      "price": 12.99,
+      "discountPercentage": 19.03,
+      "rating": 4.36,
+      "stock": 91,
+      "tags": [
+        "beauty"
+      ],
+      "sku": "BEAU-08060186",
+      "weight": 5,
+      "dimensions": {
+        "width": 11.48,
+        "height": 5.84,
+        "depth": 3.44
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000031676",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/4/thumbnail.webp",
+      "brand": "Chic Cosmetics"
+    },
+    {
+      "id": 5,
+      "title": "Red Nail Polish",
+      "description": "Red Nail Polish - product description.",
+      "category": "beauty",
+      "price": 8.99,
+      "discountPercentage": 2.46,
+      "rating": 4.32,
+      "stock": 79,
+      "tags": [
+        "beauty"
+      ],
+      "sku": "BEAU-BB8D9DCC",
+      "weight": 6,
+      "dimensions": {
+        "width": 11.85,
+        "height": 6.05,
+        "depth": 3.55
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000039595",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/5/thumbnail.webp",
+      "brand": "Nail Couture"
+    },
+    {
+      "id": 6,
+      "title": "Calvin Klein CK One",
+      "description": "Calvin Klein CK One - product description.",
+      "category": "fragrances",
+      "price": 49.99,
+      "discountPercentage": 0.32,
+      "rating": 4.37,
+      "stock": 29,
+      "tags": [
+        "fragrances"
+      ],
+      "sku": "FRAG-A3E12114",
+      "weight": 7,
+      "dimensions": {
+        "width": 12.22,
+        "height": 6.26,
+        "depth": 3.66
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000047514",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/6/thumbnail.webp",
+      "brand": "Calvin Klein"
+    },
+    {
+      "id": 7,
+      "title": "Chanel Coco Noir Eau De",
+      "description": "Chanel Coco Noir Eau De - product description.",
+      "category": "fragrances",
+      "price": 129.99,
+      "discountPercentage": 18.64,
+      "rating": 4.26,
+      "stock": 58,
+      "tags": [
+        "fragrances"
+      ],
+      "sku": "FRAG-FC4CF4FC",
+      "weight": 8,
+      "dimensions": {
+        "width": 12.59,
+        "height": 6.47,
+        "depth": 3.77
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000055433",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/7/thumbnail.webp",
+      "brand": "Chanel"
+    },
+    {
+      "id": 8,
+      "title": "Dior J'adore",
+      "description": "Dior J'adore - product description.",
+      "category": "fragrances",
+      "price": 89.99,
+      "discountPercentage": 17.44,
+      "rating": 3.8,
+      "stock": 98,
+      "tags": [
+        "fragrances"
+      ],
+      "sku": "FRAG-80852AA0",
+      "weight": 9,
+      "dimensions": {
+        "width": 12.96,
+        "height": 6.68,
+        "depth": 3.88
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000063352",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/8/thumbnail.webp",
+      "brand": "Dior"
+    },
+    {
+      "id": 9,
+      "title": "Dolce Shine Eau de",
+      "description": "Dolce Shine Eau de - product description.",
+      "category": "fragrances",
+      "price": 69.99,
+      "discountPercentage": 11.47,
+      "rating": 3.96,
+      "stock": 4,
+      "tags": [
+        "fragrances"
+      ],
+      "sku": "FRAG-CA267A5E",
+      "weight": 1,
+      "dimensions": {
+        "width": 13.33,
+        "height": 6.89,
+        "depth": 3.99
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "Low Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000071271",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/9/thumbnail.webp",
+      "brand": "Dolce & Gabbana"
+    },
+    {
+      "id": 10,
+      "title": "Gucci Bloom Eau de",
+      "description": "Gucci Bloom Eau de - product description.",
+      "category": "fragrances",
+      "price": 79.99,
+      "discountPercentage": 8.9,
+      "rating": 2.74,
+      "stock": 91,
+      "tags": [
+        "fragrances"
+      ],
+      "sku": "FRAG-E6CDD88E",
+      "weight": 2,
+      "dimensions": {
+        "width": 13.7,
+        "height": 7.1,
+        "depth": 4.1
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000079190",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/fragrances/10/thumbnail.webp",
+      "brand": "Gucci"
+    },
+    {
+      "id": 11,
+      "title": "Annibale Colombo Bed",
+      "description": "Annibale Colombo Bed - product description.",
+      "category": "furniture",
+      "price": 1899.99,
+      "discountPercentage": 0.29,
+      "rating": 4.77,
+      "stock": 88,
+      "tags": [
+        "furniture"
+      ],
+      "sku": "FURN-F8281E80",
+      "weight": 3,
+      "dimensions": {
+        "width": 14.07,
+        "height": 7.31,
+        "depth": 4.21
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000087109",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/11/thumbnail.webp",
+      "brand": "Annibale Colombo"
+    },
+    {
+      "id": 12,
+      "title": "Annibale Colombo Sofa",
+      "description": "Annibale Colombo Sofa - product description.",
+      "category": "furniture",
+      "price": 2499.99,
+      "discountPercentage": 18.54,
+      "rating": 3.92,
+      "stock": 60,
+      "tags": [
+        "furniture"
+      ],
+      "sku": "FURN-A56EE763",
+      "weight": 4,
+      "dimensions": {
+        "width": 14.44,
+        "height": 7.52,
+        "depth": 4.32
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000095028",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/12/thumbnail.webp",
+      "brand": "Annibale Colombo"
+    },
+    {
+      "id": 13,
+      "title": "Bedside Table African Cherry",
+      "description": "Bedside Table African Cherry - product description.",
+      "category": "furniture",
+      "price": 299.99,
+      "discountPercentage": 9.58,
+      "rating": 2.87,
+      "stock": 64,
+      "tags": [
+        "furniture"
+      ],
+      "sku": "FURN-B2DEEA12",
+      "weight": 5,
+      "dimensions": {
+        "width": 14.81,
+        "height": 7.73,
+        "depth": 4.43
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000102947",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/13/thumbnail.webp",
+      "brand": "Furniture Co."
+    },
+    {
+      "id": 14,
+      "title": "Knoll Saarinen Executive Conference Chair",
+      "description": "Knoll Saarinen Executive Conference Chair - product description.",
+      "category": "furniture",
+      "price": 499.99,
+      "discountPercentage": 15.23,
+      "rating": 4.88,
+      "stock": 26,
+      "tags": [
+        "furniture"
+      ],
+      "sku": "FURN-F37F0D58",
+      "weight": 6,
+      "dimensions": {
+        "width": 15.18,
+        "height": 7.94,
+        "depth": 4.54
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000110866",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/14/thumbnail.webp",
+      "brand": "Knoll"
+    },
+    {
+      "id": 15,
+      "title": "Wooden Bathroom Sink With Mirror",
+      "description": "Wooden Bathroom Sink With Mirror - product description.",
+      "category": "furniture",
+      "price": 799.99,
+      "discountPercentage": 11.22,
+      "rating": 3.59,
+      "stock": 7,
+      "tags": [
+        "furniture"
+      ],
+      "sku": "FURN-72DBAD6E",
+      "weight": 7,
+      "dimensions": {
+        "width": 15.55,
+        "height": 8.15,
+        "depth": 4.65
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "Low Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000118785",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/furniture/15/thumbnail.webp",
+      "brand": "Bath Trends"
+    },
+    {
+      "id": 16,
+      "title": "Apple",
+      "description": "Apple - product description.",
+      "category": "groceries",
+      "price": 1.99,
+      "discountPercentage": 12.62,
+      "rating": 4.19,
+      "stock": 8,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-9F6290F4",
+      "weight": 8,
+      "dimensions": {
+        "width": 15.92,
+        "height": 8.36,
+        "depth": 4.76
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "Low Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000126704",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/16/thumbnail.webp"
+    },
+    {
+      "id": 17,
+      "title": "Beef Steak",
+      "description": "Beef Steak - product description.",
+      "category": "groceries",
+      "price": 12.99,
+      "discountPercentage": 9.61,
+      "rating": 4.47,
+      "stock": 86,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-49E66979",
+      "weight": 9,
+      "dimensions": {
+        "width": 16.29,
+        "height": 8.57,
+        "depth": 4.87
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000134623",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/17/thumbnail.webp"
+    },
+    {
+      "id": 18,
+      "title": "Cat Food",
+      "description": "Cat Food - product description.",
+      "category": "groceries",
+      "price": 8.99,
+      "discountPercentage": 9.58,
+      "rating": 3.13,
+      "stock": 46,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-146EA393",
+      "weight": 1,
+      "dimensions": {
+        "width": 16.66,
+        "height": 8.78,
+        "depth": 4.98
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000142542",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/18/thumbnail.webp"
+    },
+    {
+      "id": 19,
+      "title": "Chicken Meat",
+      "description": "Chicken Meat - product description.",
+      "category": "groceries",
+      "price": 9.99,
+      "discountPercentage": 13.7,
+      "rating": 3.19,
+      "stock": 97,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-0909FC14",
+      "weight": 2,
+      "dimensions": {
+        "width": 17.03,
+        "height": 8.99,
+        "depth": 5.09
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000150461",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/19/thumbnail.webp"
+    },
+    {
+      "id": 20,
+      "title": "Cooking Oil",
+      "description": "Cooking Oil - product description.",
+      "category": "groceries",
+      "price": 4.99,
+      "discountPercentage": 9.33,
+      "rating": 4.8,
+      "stock": 10,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-F4B3F454",
+      "weight": 3,
+      "dimensions": {
+        "width": 17.4,
+        "height": 9.2,
+        "depth": 5.2
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000158380",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/20/thumbnail.webp"
+    },
+    {
+      "id": 21,
+      "title": "Cucumber",
+      "description": "Cucumber - product description.",
+      "category": "groceries",
+      "price": 1.49,
+      "discountPercentage": 0.16,
+      "rating": 4.07,
+      "stock": 84,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-039892FD",
+      "weight": 4,
+      "dimensions": {
+        "width": 17.77,
+        "height": 9.41,
+        "depth": 5.31
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000166299",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/21/thumbnail.webp"
+    },
+    {
+      "id": 22,
+      "title": "Dog Food",
+      "description": "Dog Food - product description.",
+      "category": "groceries",
+      "price": 10.99,
+      "discountPercentage": 10.27,
+      "rating": 4.55,
+      "stock": 71,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-6D32DD40",
+      "weight": 5,
+      "dimensions": {
+        "width": 18.14,
+        "height": 9.62,
+        "depth": 5.42
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000174218",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/22/thumbnail.webp"
+    },
+    {
+      "id": 23,
+      "title": "Eggs",
+      "description": "Eggs - product description.",
+      "category": "groceries",
+      "price": 2.99,
+      "discountPercentage": 11.05,
+      "rating": 2.53,
+      "stock": 9,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-9890F069",
+      "weight": 6,
+      "dimensions": {
+        "width": 18.51,
+        "height": 9.83,
+        "depth": 5.53
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "Low Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000182137",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/23/thumbnail.webp"
+    },
+    {
+      "id": 24,
+      "title": "Fish Steak",
+      "description": "Fish Steak - product description.",
+      "category": "groceries",
+      "price": 14.99,
+      "discountPercentage": 4.23,
+      "rating": 3.78,
+      "stock": 74,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-129A8051",
+      "weight": 7,
+      "dimensions": {
+        "width": 18.88,
+        "height": 10.04,
+        "depth": 5.64
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000190056",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/24/thumbnail.webp"
+    },
+    {
+      "id": 25,
+      "title": "Green Bell Pepper",
+      "description": "Green Bell Pepper - product description.",
+      "category": "groceries",
+      "price": 1.29,
+      "discountPercentage": 0.16,
+      "rating": 3.25,
+      "stock": 33,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-E5A28550",
+      "weight": 8,
+      "dimensions": {
+        "width": 19.25,
+        "height": 10.25,
+        "depth": 5.75
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000197975",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/25/thumbnail.webp"
+    },
+    {
+      "id": 26,
+      "title": "Green Chili Pepper",
+      "description": "Green Chili Pepper - product description.",
+      "category": "groceries",
+      "price": 0.99,
+      "discountPercentage": 1.0,
+      "rating": 3.66,
+      "stock": 3,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-2248C39F",
+      "weight": 9,
+      "dimensions": {
+        "width": 19.62,
+        "height": 10.46,
+        "depth": 5.86
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "Low Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000205894",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/26/thumbnail.webp"
+    },
+    {
+      "id": 27,
+      "title": "Honey Jar",
+      "description": "Honey Jar - product description.",
+      "category": "groceries",
+      "price": 6.99,
+      "discountPercentage": 14.4,
+      "rating": 3.97,
+      "stock": 34,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-B245FAA6",
+      "weight": 1,
+      "dimensions": {
+        "width": 19.99,
+        "height": 10.67,
+        "depth": 5.97
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000213813",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/27/thumbnail.webp"
+    },
+    {
+      "id": 28,
+      "title": "Ice Cream",
+      "description": "Ice Cream - product description.",
+      "category": "groceries",
+      "price": 5.49,
+      "discountPercentage": 8.69,
+      "rating": 3.39,
+      "stock": 27,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-4905F676",
+      "weight": 2,
+      "dimensions": {
+        "width": 20.36,
+        "height": 10.88,
+        "depth": 6.08
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000221732",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/28/thumbnail.webp"
+    },
+    {
+      "id": 29,
+      "title": "Juice",
+      "description": "Juice - product description.",
+      "category": "groceries",
+      "price": 3.99,
+      "discountPercentage": 12.06,
+      "rating": 3.94,
+      "stock": 50,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-B62AD612",
+      "weight": 3,
+      "dimensions": {
+        "width": 20.73,
+        "height": 11.09,
+        "depth": 6.19
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000229651",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/29/thumbnail.webp"
+    },
+    {
+      "id": 30,
+      "title": "Kiwi",
+      "description": "Kiwi - product description.",
+      "category": "groceries",
+      "price": 2.49,
+      "discountPercentage": 15.22,
+      "rating": 4.93,
+      "stock": 99,
+      "tags": [
+        "groceries"
+      ],
+      "sku": "GROC-B6EF9705",
+      "weight": 4,
+      "dimensions": {
+        "width": 21.1,
+        "height": 11.3,
+        "depth": 6.3
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000237570",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/30/thumbnail.webp"
+    },
+    {
+      "id": 78,
+      "title": "Apple MacBook Pro 14 Inch Space Grey",
+      "description": "Apple MacBook Pro 14 Inch Space Grey - product description.",
+      "category": "laptops",
+      "price": 1999.99,
+      "discountPercentage": 9.65,
+      "rating": 3.65,
+      "stock": 24,
+      "tags": [
+        "laptops"
+      ],
+      "sku": "LAPT-9C84A767",
+      "weight": 7,
+      "dimensions": {
+        "width": 38.86,
+        "height": 21.38,
+        "depth": 11.58
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000617682",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/laptops/78/thumbnail.webp",
+      "brand": "Apple"
+    },
+    {
+      "id": 79,
+      "title": "Asus Zenbook Pro Dual Screen Laptop",
+      "description": "Asus Zenbook Pro Dual Screen Laptop - product description.",
+      "category": "laptops",
+      "price": 1799.99,
+      "discountPercentage": 9.1,
+      "rating": 3.95,
+      "stock": 45,
+      "tags": [
+        "laptops"
+      ],
+      "sku": "LAPT-B31E9326",
+      "weight": 8,
+      "dimensions": {
+        "width": 39.23,
+        "height": 21.59,
+        "depth": 11.69
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000625601",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/laptops/79/thumbnail.webp",
+      "brand": "Asus"
+    },
+    {
+      "id": 80,
+      "title": "Huawei Matebook X Pro",
+      "description": "Huawei Matebook X Pro - product description.",
+      "category": "laptops",
+      "price": 1399.99,
+      "discountPercentage": 15.07,
+      "rating": 4.98,
+      "stock": 75,
+      "tags": [
+        "laptops"
+      ],
+      "sku": "LAPT-1DD7C0A3",
+      "weight": 9,
+      "dimensions": {
+        "width": 39.6,
+        "height": 21.8,
+        "depth": 11.8
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000633520",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/laptops/80/thumbnail.webp",
+      "brand": "Huawei"
+    },
+    {
+      "id": 81,
+      "title": "Lenovo Yoga 920",
+      "description": "Lenovo Yoga 920 - product description.",
+      "category": "laptops",
+      "price": 1099.99,
+      "discountPercentage": 13.79,
+      "rating": 2.86,
+      "stock": 40,
+      "tags": [
+        "laptops"
+      ],
+      "sku": "LAPT-FC88F00B",
+      "weight": 1,
+      "dimensions": {
+        "width": 39.97,
+        "height": 22.01,
+        "depth": 11.91
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000641439",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/laptops/81/thumbnail.webp",
+      "brand": "Lenovo"
+    },
+    {
+      "id": 82,
+      "title": "New DELL XPS 13 9300 Laptop",
+      "description": "New DELL XPS 13 9300 Laptop - product description.",
+      "category": "laptops",
+      "price": 1499.99,
+      "discountPercentage": 4.59,
+      "rating": 4.52,
+      "stock": 74,
+      "tags": [
+        "laptops"
+      ],
+      "sku": "LAPT-BBDB81CA",
+      "weight": 2,
+      "dimensions": {
+        "width": 40.34,
+        "height": 22.22,
+        "depth": 12.02
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000649358",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/laptops/82/thumbnail.webp",
+      "brand": "Dell"
+    },
+    {
+      "id": 121,
+      "title": "iPhone 5s",
+      "description": "iPhone 5s - product description.",
+      "category": "smartphones",
+      "price": 199.99,
+      "discountPercentage": 12.91,
+      "rating": 2.83,
+      "stock": 25,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-25CCCA7F",
+      "weight": 5,
+      "dimensions": {
+        "width": 54.77,
+        "height": 30.41,
+        "depth": 16.31
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000958199",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/121/thumbnail.webp",
+      "brand": "Apple"
+    },
+    {
+      "id": 122,
+      "title": "iPhone 6",
+      "description": "iPhone 6 - product description.",
+      "category": "smartphones",
+      "price": 299.99,
+      "discountPercentage": 6.69,
+      "rating": 3.41,
+      "stock": 60,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-C8DBBE7E",
+      "weight": 6,
+      "dimensions": {
+        "width": 55.14,
+        "height": 30.62,
+        "depth": 16.42
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000966118",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/122/thumbnail.webp",
+      "brand": "Apple"
+    },
+    {
+      "id": 123,
+      "title": "iPhone 13 Pro",
+      "description": "iPhone 13 Pro - product description.",
+      "category": "smartphones",
+      "price": 1099.99,
+      "discountPercentage": 9.37,
+      "rating": 4.12,
+      "stock": 56,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-B29915F0",
+      "weight": 7,
+      "dimensions": {
+        "width": 55.51,
+        "height": 30.83,
+        "depth": 16.53
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000974037",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/123/thumbnail.webp",
+      "brand": "Apple"
+    },
+    {
+      "id": 124,
+      "title": "iPhone X",
+      "description": "iPhone X - product description.",
+      "category": "smartphones",
+      "price": 899.99,
+      "discountPercentage": 19.37,
+      "rating": 2.51,
+      "stock": 37,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-079A3D13",
+      "weight": 8,
+      "dimensions": {
+        "width": 55.88,
+        "height": 31.04,
+        "depth": 16.64
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000981956",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/124/thumbnail.webp",
+      "brand": "Apple"
+    },
+    {
+      "id": 125,
+      "title": "Oppo A57",
+      "description": "Oppo A57 - product description.",
+      "category": "smartphones",
+      "price": 249.99,
+      "discountPercentage": 6.06,
+      "rating": 3.94,
+      "stock": 19,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-D9C6EE99",
+      "weight": 9,
+      "dimensions": {
+        "width": 56.25,
+        "height": 31.25,
+        "depth": 16.75
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000989875",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/125/thumbnail.webp",
+      "brand": "Oppo"
+    },
+    {
+      "id": 126,
+      "title": "Oppo F19 Pro Plus",
+      "description": "Oppo F19 Pro Plus - product description.",
+      "category": "smartphones",
+      "price": 399.99,
+      "discountPercentage": 15.45,
+      "rating": 4.27,
+      "stock": 78,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-75BE0071",
+      "weight": 1,
+      "dimensions": {
+        "width": 56.62,
+        "height": 31.46,
+        "depth": 16.86
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 2,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000000997794",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/126/thumbnail.webp",
+      "brand": "Oppo"
+    },
+    {
+      "id": 127,
+      "title": "Oppo K1",
+      "description": "Oppo K1 - product description.",
+      "category": "smartphones",
+      "price": 299.99,
+      "discountPercentage": 17.51,
+      "rating": 4.75,
+      "stock": 0,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-6C3DFBAB",
+      "weight": 2,
+      "dimensions": {
+        "width": 56.99,
+        "height": 31.67,
+        "depth": 16.97
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "Out of Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 3,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000001005713",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/127/thumbnail.webp",
+      "brand": "Oppo"
+    },
+    {
+      "id": 128,
+      "title": "Realme C35",
+      "description": "Realme C35 - product description.",
+      "category": "smartphones",
+      "price": 149.99,
+      "discountPercentage": 7.4,
+      "rating": 4.2,
+      "stock": 0,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-E1B3E814",
+      "weight": 3,
+      "dimensions": {
+        "width": 57.36,
+        "height": 31.88,
+        "depth": 17.08
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "Out of Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 4,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000001013632",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/128/thumbnail.webp",
+      "brand": "Realme"
+    },
+    {
+      "id": 129,
+      "title": "Realme X",
+      "description": "Realme X - product description.",
+      "category": "smartphones",
+      "price": 299.99,
+      "discountPercentage": 6.95,
+      "rating": 3.7,
+      "stock": 3,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-F38A8BC2",
+      "weight": 4,
+      "dimensions": {
+        "width": 57.73,
+        "height": 32.09,
+        "depth": 17.19
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "Low Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 5,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000001021551",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/129/thumbnail.webp",
+      "brand": "Realme"
+    },
+    {
+      "id": 130,
+      "title": "Realme XT",
+      "description": "Realme XT - product description.",
+      "category": "smartphones",
+      "price": 349.99,
+      "discountPercentage": 11.51,
+      "rating": 4.58,
+      "stock": 80,
+      "tags": [
+        "smartphones"
+      ],
+      "sku": "SMAR-E370F7C9",
+      "weight": 5,
+      "dimensions": {
+        "width": 58.1,
+        "height": 32.3,
+        "depth": 17.3
+      },
+      "warrantyInformation": "1 year warranty",
+      "shippingInformation": "Ships in 1-2 business days",
+      "availabilityStatus": "In Stock",
+      "returnPolicy": "30 days return policy",
+      "minimumOrderQuantity": 1,
+      "meta": {
+        "createdAt": "2024-05-23T08:56:21.618Z",
+        "updatedAt": "2024-05-23T08:56:21.618Z",
+        "barcode": "9000001029470",
+        "qrCode": "https://cdn.dummyjson.com/public/qr-code.png"
+      },
+      "thumbnail": "https://cdn.dummyjson.com/product-images/smartphones/130/thumbnail.webp",
+      "brand": "Realme"
+    }
+  ]
+}
