@@ -3,11 +3,12 @@ from __future__ import annotations
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pytest
 
-from retail_data_platform.config import Settings, SourceMode
+if TYPE_CHECKING:
+    from retail_data_platform.config import Settings
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES_DIR = REPO_ROOT / "data" / "fixtures"
@@ -23,6 +24,9 @@ def fixtures_dir() -> Path:
 @pytest.fixture
 def make_settings() -> Callable[..., Settings]:
     """Settings isolated from the developer's .env, in replay mode with zero backoff."""
+
+    # Imported lazily so the Airflow DAG tests can run in the Airflow image without the package.
+    from retail_data_platform.config import Settings, SourceMode
 
     def factory(**overrides: Any) -> Settings:
         values: dict[str, Any] = {
