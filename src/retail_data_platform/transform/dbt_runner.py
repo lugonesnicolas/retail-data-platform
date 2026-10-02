@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import sys
@@ -24,6 +25,20 @@ def dbt_executable() -> str:
     return found
 
 
+def dbt_environment(settings: Settings) -> dict[str, str]:
+    """dbt's profiles.yml reads RDP_DB_* env vars; pass the resolved settings explicitly so
+    values coming from a ``.env`` file reach the subprocess too."""
+    return {
+        **os.environ,
+        "RDP_DB_HOST": settings.db_host,
+        "RDP_DB_PORT": str(settings.db_port),
+        "RDP_DB_NAME": settings.db_name,
+        "RDP_DB_USER": settings.db_user,
+        "RDP_DB_PASSWORD": settings.db_password.get_secret_value(),
+        "DBT_SEND_ANONYMOUS_USAGE_STATS": "false",
+    }
+
+
 def run_dbt(command: list[str], settings: Settings, *, extra_args: list[str] | None = None) -> int:
     """Run ``dbt <command>`` against the configured project/profile; return the exit code."""
     args = [
@@ -42,6 +57,8 @@ def run_dbt(command: list[str], settings: Settings, *, extra_args: list[str] | N
         *(extra_args or []),
     ]
     with timed_operation("dbt", command=" ".join(command)) as op:
-        completed = subprocess.run(args, check=False)  # noqa: S603 - fixed argument list
+        completed = subprocess.run(  # noqa: S603 - fixed argument list, no shell
+            args, check=False, env=dbt_environment(settings)
+        )
         op["exit_code"] = completed.returncode
     return completed.returncode

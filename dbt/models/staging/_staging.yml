@@ -1,0 +1,138 @@
+version: 2
+
+models:
+  - name: stg_api_products
+    description: DummyJSON API products normalised to the canonical observation shape.
+    columns:
+      - name: observation_id
+        description: Record hash of the raw observation (natural key of an observation).
+        data_tests: [unique, not_null]
+      - name: source
+        data_tests: [not_null]
+      - name: source_product_id
+        description: Identifier of the product inside its source.
+        data_tests: [not_null]
+      - name: product_name
+        data_tests: [not_null]
+      - name: source_category
+        description: Lower-cased category label as published by the source.
+      - name: retailer
+        description: Retailer/channel the observation comes from.
+        data_tests: [not_null]
+      - name: price
+        description: Price in the source currency.
+        data_tests: [not_null, non_negative]
+      - name: currency
+        description: ISO-4217 currency code.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('currency_rates')
+                field: currency
+      - name: availability
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [in_stock, low_stock, out_of_stock, unknown]
+      - name: rating
+        description: Rating on a 0-5 scale where the source provides one.
+        data_tests:
+          - value_between:
+              arguments: {min_value: 0, max_value: 5}
+      - name: observed_at
+        description: When the source state was observed (UTC).
+        data_tests: [not_null, not_in_future]
+      - name: loaded_at
+        description: When the row was written to the raw layer.
+        data_tests: [not_null]
+  - name: stg_web_products
+    description: books.toscrape.com listings normalised to the canonical observation shape.
+    columns:
+      - name: observation_id
+        description: Record hash of the raw observation (natural key of an observation).
+        data_tests: [unique, not_null]
+      - name: source
+        data_tests: [not_null]
+      - name: source_product_id
+        description: Identifier of the product inside its source.
+        data_tests: [not_null]
+      - name: product_name
+        data_tests: [not_null]
+      - name: source_category
+        description: Lower-cased category label as published by the source.
+      - name: retailer
+        description: Retailer/channel the observation comes from.
+        data_tests: [not_null]
+      - name: price
+        description: Price in the source currency.
+        data_tests: [not_null, non_negative]
+      - name: currency
+        description: ISO-4217 currency code.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('currency_rates')
+                field: currency
+      - name: availability
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [in_stock, low_stock, out_of_stock, unknown]
+      - name: rating
+        description: Rating on a 0-5 scale where the source provides one.
+        data_tests:
+          - value_between:
+              arguments: {min_value: 0, max_value: 5}
+      - name: observed_at
+        description: When the source state was observed (UTC).
+        data_tests: [not_null, not_in_future]
+      - name: loaded_at
+        description: When the row was written to the raw layer.
+        data_tests: [not_null]
+  - name: stg_dataset_products
+    description: CSV dataset rows normalised to the canonical observation shape.
+    columns:
+      - name: observation_id
+        description: Record hash of the raw observation (natural key of an observation).
+        data_tests: [unique, not_null]
+      - name: source
+        data_tests: [not_null]
+      - name: source_product_id
+        description: Identifier of the product inside its source.
+        data_tests: [not_null]
+      - name: product_name
+        data_tests: [not_null]
+      - name: source_category
+        description: Lower-cased category label as published by the source.
+      - name: retailer
+        description: Retailer/channel the observation comes from.
+        data_tests: [not_null]
+      - name: price
+        description: Price in the source currency.
+        data_tests: [not_null, non_negative]
+      - name: currency
+        description: ISO-4217 currency code.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('currency_rates')
+                field: currency
+      - name: availability
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [in_stock, low_stock, out_of_stock, unknown]
+      - name: rating
+        description: Rating on a 0-5 scale where the source provides one.
+        data_tests:
+          - value_between:
+              arguments: {min_value: 0, max_value: 5}
+      - name: observed_at
+        description: When the source state was observed (UTC).
+        data_tests: [not_null, not_in_future]
+      - name: loaded_at
+        description: When the row was written to the raw layer.
+        data_tests: [not_null]

@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: dim_source
+    description: Acquisition sources with their method, base URL and observation coverage.
+    columns:
+      - name: source_key
+        data_tests: [unique, not_null]
+      - name: acquisition_method
+        data_tests: [not_null]
+
+  - name: dim_product
+    description: One row per product (per source) with its most recent descriptive attributes.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [source_key, source_product_id]
+    columns:
+      - name: product_key
+        data_tests: [unique, not_null]
+      - name: source_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_source')
+                field: source_key
+      - name: product_name
+        data_tests: [not_null]
+      - name: category
+        data_tests: [not_null]
+      - name: observation_count
+        data_tests: [not_null]
+
+  - name: fct_price_observation
+    description: >
+      Price/availability fact. Grain: one observed product state. Built incrementally on the raw
+      loaded_at watermark; delete+insert on observation_id keeps reprocessing idempotent.
+    columns:
+      - name: observation_id
+        data_tests: [unique, not_null]
+      - name: product_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_key
+      - name: source
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_source')
+                field: source_key
+      - name: price
+        data_tests: [not_null, non_negative]
+      - name: price_usd
+        data_tests: [not_null, non_negative]
+      - name: observed_at
+        data_tests: [not_null, not_in_future]

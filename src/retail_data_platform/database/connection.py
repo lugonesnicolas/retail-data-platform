@@ -26,7 +26,9 @@ def connect(settings: Settings, *, autocommit: bool = False) -> psycopg.Connecti
 
 @contextmanager
 def connection(settings: Settings) -> Iterator[psycopg.Connection]:
-    conn = connect(settings)
+    """Autocommit connection: every multi-statement unit of work uses an explicit
+    ``with conn.transaction():`` block, so commit boundaries are visible in the code."""
+    conn = connect(settings, autocommit=True)
     try:
         yield conn
     finally:

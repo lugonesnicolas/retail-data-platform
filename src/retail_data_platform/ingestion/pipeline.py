@@ -167,7 +167,7 @@ def run_source_ingestion(
                 )
         except Exception as exc:
             # Acquisition/schema/database failure: make sure the failure is visible in ops.
-            repo.conn.rollback()
+            # (Any open transaction block was already rolled back when the exception left it.)
             result.status = "failed"
             result.error_type = type(exc).__name__
             result.error_summary = str(exc)[:4000]

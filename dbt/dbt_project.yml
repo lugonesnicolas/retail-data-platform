@@ -1,0 +1,49 @@
+name: retail_data_platform
+version: "1.0.0"
+config-version: 2
+profile: retail_data_platform
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+clean-targets: ["target", "logs"]
+
+flags:
+  send_anonymous_usage_stats: false
+
+vars:
+  # Observations dated further in the future than this are treated as data errors.
+  future_tolerance_hours: 1
+  # Freshness (hours) after which a source is considered stale on the dashboard.
+  stale_after_hours: 26
+
+models:
+  retail_data_platform:
+    +persist_docs:
+      relation: true
+      columns: true
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: mart
+      core:
+        +materialized: table
+      analytics:
+        +materialized: table
+      ops:
+        +materialized: view
+        +tags: ["ops_metrics"]
+
+seeds:
+  retail_data_platform:
+    +schema: reference
+
+# The dashboard connects with a read-only role; tables are re-created on every build, so
+# grants are re-applied at the end of each run (no-op if the role does not exist, e.g. in CI).
+on-run-end:
+  - "{{ grant_read_access(['mart'], env_var('RDP_DB_READER_ROLE', '')) }}"

@@ -1,0 +1,4 @@
+source,display_name,acquisition_method,base_url,default_currency,description
+api,DummyJSON Products API,http_api,https://dummyjson.com/products,USD,Public REST API with paginated product catalogue
+web,Books to Scrape,web_scraping,https://books.toscrape.com/,GBP,Scraping sandbox site; category listing pages
+dataset,Retail CSV Dataset,file_dataset,data/sample/retail_products.csv,,Versioned multi-retailer price observations

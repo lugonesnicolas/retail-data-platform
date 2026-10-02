@@ -1,0 +1,18 @@
+# Credentials are always read from the environment; nothing secret lives in this file.
+retail_data_platform:
+  target: dev
+  outputs:
+    dev: &postgres
+      type: postgres
+      host: "{{ env_var('RDP_DB_HOST', 'localhost') }}"
+      port: "{{ env_var('RDP_DB_PORT', '5432') | as_number }}"
+      user: "{{ env_var('RDP_DB_USER', 'retail') }}"
+      password: "{{ env_var('RDP_DB_PASSWORD', '') }}"
+      dbname: "{{ env_var('RDP_DB_NAME', 'retail') }}"
+      schema: analytics
+      threads: 4
+      connect_timeout: 10
+      keepalives_idle: 0
+    prod:
+      <<: *postgres
+      threads: 2
