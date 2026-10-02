@@ -6,11 +6,15 @@ __pycache__/
 .ruff_cache/
 .venv/
 venv/
+*.egg-info/
 
 # Environment / secrets
 .env
 .env.*
 !.env.example
+*.pem
+id_rsa*
+id_ed25519*
 
 # IDE / OS
 .vscode/
@@ -23,16 +27,30 @@ dist/
 build/
 htmlcov/
 .coverage
+coverage.xml
 
 # dbt
-target/
-dbt_packages/
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
 logs/
 
 # Airflow local state
 airflow/logs/
 airflow/*.db
 
-# Data / local runtime
-data/
+# Local runtime data (committed sample data + fixtures live under data/sample and data/fixtures)
+data/*
+!data/sample/
+!data/fixtures/
+backups/
 tmp/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+.terraform.tfstate.lock.info
