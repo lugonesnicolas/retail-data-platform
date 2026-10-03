@@ -1,0 +1,40 @@
+# Caddy obtains and renews Let's Encrypt certificates automatically for every site below.
+# DNS A records for DOMAIN and airflow.DOMAIN must point at the VM before first start.
+{
+	email {$ACME_EMAIL}
+	admin 127.0.0.1:2019
+}
+
+(hardening) {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+	log {
+		output stdout
+		format json
+	}
+}
+
+# Streamlit dashboard (websockets are proxied transparently)
+{$DOMAIN} {
+	import hardening
+	reverse_proxy dashboard:8501
+}
+
+# Airflow UI + REST API (authentication enforced by Airflow's FAB auth manager)
+airflow.{$DOMAIN} {
+	import hardening
+	reverse_proxy airflow-apiserver:8080
+}
+
+# Optional Grafana (enable the "observability" profile and add a DNS record first):
+# grafana.{$DOMAIN} {
+# 	import hardening
+# 	reverse_proxy grafana:3000
+# }

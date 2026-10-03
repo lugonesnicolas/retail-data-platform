@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int_product_observations
+    description: >
+      Union of all staged sources with conformed attributes: product surrogate key, canonical
+      category (via the category_mapping seed) and USD-normalised price (via currency_rates).
+    columns:
+      - name: observation_id
+        data_tests: [unique, not_null]
+      - name: product_key
+        description: md5(source | source_product_id).
+        data_tests: [not_null]
+      - name: category
+        description: Canonical category; falls back to the source label when unmapped.
+        data_tests: [not_null]
+      - name: price_usd
+        description: Price converted with static reference rates. Null would mean a missing rate.
+        data_tests: [not_null, non_negative]

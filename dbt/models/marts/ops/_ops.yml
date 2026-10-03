@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: mart_source_metrics
+    description: >
+      Per-source operational health: last run, last success, staleness, 7-day failure and
+      rejection counts. Table rebuilt by the refresh_metrics step (tag ops_metrics).
+    columns:
+      - name: source
+        data_tests: [unique, not_null]
+      - name: is_stale
+        description: True when the last successful run is older than var('stale_after_hours').
+        data_tests: [not_null]
+
+  - name: mart_pipeline_health
+    description: One row per pipeline run with row counts, durations and quality outcome.
+    columns:
+      - name: run_id
+        data_tests: [unique, not_null]
+      - name: health
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [running, abandoned, critical, warning, healthy]
+      - name: alerted_at
+        description: When the failure alert email was sent (null = no alert sent).
+
+  - name: mart_source_run_history
+    description: Every source ingestion run with row counts, duration and errors.
+    columns:
+      - name: source_run_id
+        data_tests: [unique, not_null]
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [running, success, failed]
+
+  - name: mart_data_quality
+    description: All recorded quality check outcomes with their pipeline run context.
+    columns:
+      - name: result_id
+        data_tests: [unique, not_null]

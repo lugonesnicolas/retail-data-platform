@@ -1,0 +1,4 @@
+currency,usd_rate,rate_note
+USD,1.0000,base currency
+EUR,1.0800,static reference rate for cross-currency comparison (not live FX)
+GBP,1.2700,static reference rate for cross-currency comparison (not live FX)

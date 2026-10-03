@@ -1,0 +1,100 @@
+[project]
+name = "retail-data-platform"
+version = "0.1.0"
+description = "Multi-source retail product data platform: Python ingestion, PostgreSQL, dbt, Airflow and Streamlit."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Nicolas Lugones" }]
+dependencies = [
+    "beautifulsoup4~=4.15",
+    "httpx~=0.28.1",
+    "psycopg[binary]~=3.3",
+    "pydantic~=2.13",
+    "pydantic-settings~=2.15",
+    "structlog~=26.1",
+    "typer~=0.27",
+]
+
+[project.optional-dependencies]
+# dbt is kept as an extra so the dashboard image does not carry it.
+dbt = [
+    "dbt-core~=1.12",
+    "dbt-postgres~=1.11",
+]
+dashboard = [
+    "altair~=6.3",
+    "pandas~=3.0",
+    "streamlit~=1.64",
+]
+
+[project.scripts]
+rdp = "retail_data_platform.cli.main:app"
+
+[dependency-groups]
+dev = [
+    "mypy~=2.4",
+    "pytest~=9.1",
+    "pytest-cov~=7.1",
+    "ruff~=0.16.10",
+]
+
+[build-system]
+requires = ["hatchling~=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/retail_data_platform"]
+
+[tool.uv]
+default-groups = ["dev"]
+
+# ---------------------------------------------------------------- ruff
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests", "dashboard", "airflow/dags"]
+extend-exclude = ["dbt/target", "dbt/dbt_packages"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F", "I", "B", "UP", "S", "SIM", "RUF", "PT", "C4", "DTZ", "LOG", "G", "T20", "PL",
+]
+ignore = [
+    "PLR0913",  # explicit keyword-heavy constructors are fine here
+    "PLR2004",  # magic values in comparisons are mostly thresholds in tests
+    "S608",     # SQL is built only from internal identifiers (see database/repositories.py)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "PLR0915", "PLC0415"]
+"dashboard/**" = ["PLC0415"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# ---------------------------------------------------------------- mypy
+[tool.mypy]
+python_version = "3.12"
+files = ["src"]
+strict = true
+warn_unreachable = true
+pretty = true
+
+# ---------------------------------------------------------------- pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers -m 'not live'"
+markers = [
+    "integration: requires a reachable PostgreSQL (RDP_DB_* env vars)",
+    "live: hits real third-party websites; excluded by default",
+]
+filterwarnings = ["error::pytest.PytestUnraisableExceptionWarning"]
+
+[tool.coverage.run]
+source = ["retail_data_platform"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

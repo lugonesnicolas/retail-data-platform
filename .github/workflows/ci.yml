@@ -1,0 +1,142 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.12"
+  UV_VERSION: "0.8.17"
+
+jobs:
+  python:
+    name: Lint, types, tests, dbt
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: retail
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      # Integration tests create and drop a throw-away database per session.
+      RDP_TEST_DB_HOST: localhost
+      RDP_TEST_DB_PORT: "5432"
+      RDP_TEST_DB_USER: postgres
+      RDP_TEST_DB_PASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+
+      - name: Install dependencies (locked)
+        run: uv sync --all-extras --frozen
+
+      - name: Ruff lint
+        run: uv run ruff check --output-format=github .
+
+      - name: Ruff format
+        run: uv run ruff format --check .
+
+      - name: Mypy (strict)
+        run: uv run mypy
+
+      - name: Pytest (unit + integration)
+        run: uv run pytest --cov --cov-report=term --cov-report=xml
+
+      - name: End-to-end pipeline incl. dbt build + tests (replay mode)
+        env:
+          RDP_DB_HOST: localhost
+          RDP_DB_PORT: "5432"
+          RDP_DB_NAME: retail
+          RDP_DB_USER: postgres
+          RDP_DB_PASSWORD: postgres
+          RDP_SOURCE_MODE: replay
+          RDP_LOG_FORMAT: console
+        run: |
+          uv run rdp db migrate
+          uv run rdp pipeline run --run-id "ci-${GITHUB_RUN_ID}"
+          uv run rdp smoke
+          uv run dbt docs generate --project-dir dbt --profiles-dir dbt --target-path target-docs
+
+      - name: Shellcheck
+        run: shellcheck -x scripts/*.sh deploy/scripts/*.sh docker/postgres/init/*.sh
+
+  terraform:
+    name: Terraform (Azure example)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: infra/terraform/azure
+    steps:
+      - uses: actions/checkout@v5
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false -input=false
+      - run: terraform validate
+
+  docker:
+    name: Docker build + full-stack smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Generate CI environment (random secrets, replay mode, no external sites)
+        run: |
+          scripts/generate-env.sh
+          sed -i 's/^RDP_SOURCE_MODE=.*/RDP_SOURCE_MODE=replay/' .env
+
+      - name: Validate compose files
+        run: |
+          docker compose config --quiet
+          docker compose -f docker-compose.yml -f deploy/docker-compose.prod.yml --profile observability config --quiet
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build images
+        run: docker compose build
+
+      - name: Start stack
+        run: make up
+
+      - name: DAG integrity tests (inside the Airflow image)
+        run: make test-dags
+
+      - name: Run the Airflow DAG end-to-end
+        run: make pipeline
+
+      - name: Smoke test
+        run: make smoke
+
+      - name: Diagnostics on failure
+        if: failure()
+        run: |
+          docker compose ps
+          docker compose logs --tail=200
+
+      - name: Tear down
+        if: always()
+        run: docker compose down -v

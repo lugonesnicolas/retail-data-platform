@@ -1,0 +1,36 @@
+version: 2
+
+seeds:
+  - name: source_catalog
+    description: Reference description of each acquisition source (one row per source).
+    config:
+      column_types: {source: text, default_currency: text}
+    columns:
+      - name: source
+        data_tests: [unique, not_null]
+      - name: acquisition_method
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [http_api, web_scraping, file_dataset]
+
+  - name: currency_rates
+    description: >
+      Static conversion rates to USD used only to make prices comparable across sources.
+      Deliberately not live FX - documented as a known simplification.
+    config:
+      column_types: {currency: text, usd_rate: "numeric(10,4)"}
+    columns:
+      - name: currency
+        data_tests: [unique, not_null]
+      - name: usd_rate
+        data_tests: [not_null, non_negative]
+
+  - name: category_mapping
+    description: Conforms source-specific category labels to a shared canonical category.
+    config:
+      column_types: {source: text, source_category: text, canonical_category: text}
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [source, source_category]

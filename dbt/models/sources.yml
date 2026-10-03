@@ -1,0 +1,71 @@
+version: 2
+
+sources:
+  - name: raw
+    description: >
+      Bronze layer written by the Python ingestion package. Append-only; one table per source;
+      canonical typed columns plus the untouched source payload.
+    schema: raw
+    loaded_at_field: loaded_at
+    config:
+      freshness:
+        warn_after: {count: 26, period: hour}
+        error_after: {count: 72, period: hour}
+    tables:
+      - &raw_products
+        name: api_products
+        description: DummyJSON products API observations.
+        columns:
+          - name: record_hash
+            description: SHA-256 of the observation identity (source, product, day, attributes).
+            data_tests: [unique, not_null]
+          - name: source_product_id
+            data_tests: [not_null]
+          - name: price
+            data_tests: [not_null, non_negative]
+          - name: observed_at
+            data_tests: [not_null]
+          - name: raw_payload
+            description: Exact record as returned by the source.
+            data_tests: [not_null]
+      - <<: *raw_products
+        name: web_products
+        description: books.toscrape.com category listing observations.
+      - <<: *raw_products
+        name: dataset_products
+        description: >
+          Versioned CSV dataset. Its content only changes when the file changes, so freshness is
+          tracked from ops.source_runs instead of loaded_at.
+        config:
+          freshness: null
+      - name: rejected_records
+        description: Records that violated the ingestion contract, with validation errors.
+        config:
+          freshness: null
+
+  - name: ops
+    description: Operational metadata written by the pipeline (runs, source runs, quality).
+    schema: ops
+    config:
+      freshness: null
+    tables:
+      - name: pipeline_runs
+        columns:
+          - name: run_id
+            data_tests: [unique, not_null]
+          - name: status
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [running, success, failed]
+      - name: source_runs
+        columns:
+          - name: source_run_id
+            data_tests: [unique, not_null]
+      - name: data_quality_results
+        columns:
+          - name: severity
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [critical, warning, info]

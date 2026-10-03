@@ -1,0 +1,6 @@
+{
+  "results": [
+    {"unique_id": "source.retail_data_platform.raw.api_products", "status": "pass", "max_loaded_at_time_ago_in_s": 120.0},
+    {"unique_id": "source.retail_data_platform.raw.web_products", "status": "warn", "max_loaded_at_time_ago_in_s": 108000.0}
+  ]
+}

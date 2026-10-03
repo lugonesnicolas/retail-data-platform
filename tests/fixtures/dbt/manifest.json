@@ -1,0 +1,9 @@
+{
+  "nodes": {
+    "model.retail_data_platform.dim_product": {"name": "dim_product", "config": {}},
+    "model.retail_data_platform.mart_product_latest": {"name": "mart_product_latest", "config": {}},
+    "test.retail_data_platform.unique_dim_product_product_key.abc": {"name": "unique_dim_product_product_key", "config": {"severity": "ERROR"}, "attached_node": "model.retail_data_platform.dim_product"},
+    "test.retail_data_platform.non_negative_fct_price_observation_price.def": {"name": "non_negative_fct_price_observation_price", "config": {"severity": "ERROR"}, "attached_node": "model.retail_data_platform.fct_price_observation"},
+    "test.retail_data_platform.value_between_mart_price_comparison_price_change_pct__50___50.ghi": {"name": "value_between_mart_price_comparison_price_change_pct__50___50", "config": {"severity": "warn"}, "attached_node": "model.retail_data_platform.mart_price_comparison"}
+  }
+}

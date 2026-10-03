@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: mart_product_latest
+    description: Latest observed state of every product (Gold). Main table of the Price Explorer.
+    columns:
+      - name: product_key
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_key
+      - name: price_usd
+        data_tests: [not_null, non_negative]
+      - name: last_observed_at
+        data_tests: [not_null, not_in_future]
+
+  - name: mart_category_metrics
+    description: Price, availability and rating profile per canonical category.
+    columns:
+      - name: category
+        data_tests: [unique, not_null]
+      - name: product_count
+        data_tests: [not_null]
+      - name: availability_ratio
+        data_tests:
+          - value_between:
+              arguments: {min_value: 0, max_value: 1}
+
+  - name: mart_price_comparison
+    description: >
+      Per-product price movement (latest vs previous observation, min/max/avg) and a category
+      price index (product USD price / category median USD price).
+    columns:
+      - name: product_key
+        data_tests: [unique, not_null]
+      - name: price_change_pct
+        description: >
+          Change vs the previous observation. Large swings are flagged as a warning (not an
+          error): they are often genuine promotions, but can also reveal parsing bugs.
+        data_tests:
+          - value_between:
+              arguments: {min_value: -50, max_value: 50}
+              config:
+                severity: warn

@@ -1,0 +1,241 @@
+# Local / single-host stack. Production overrides live in deploy/docker-compose.prod.yml.
+#
+#   make setup && make up        -> postgres, migrations, airflow, dashboard
+#   make pipeline                -> trigger the Airflow DAG and wait for it
+#   docker compose --profile observability up -d grafana   (optional)
+#
+# Published ports bind to 127.0.0.1 only; PostgreSQL is never exposed beyond the host.
+
+name: retail-data-platform
+
+x-warehouse-env: &warehouse-env
+  RDP_DB_HOST: postgres
+  RDP_DB_PORT: "5432"
+  RDP_DB_NAME: ${WAREHOUSE_DB_NAME:?}
+  RDP_DB_USER: ${WAREHOUSE_DB_USER:?}
+  RDP_DB_PASSWORD: ${WAREHOUSE_DB_PASSWORD:?}
+  RDP_DB_READER_ROLE: ${DASHBOARD_DB_USER:?}
+  RDP_SOURCE_MODE: ${RDP_SOURCE_MODE:-live}
+  RDP_ENABLED_SOURCES: ${RDP_ENABLED_SOURCES:-api,web,dataset}
+  RDP_MAX_REJECT_RATIO: ${RDP_MAX_REJECT_RATIO:-0.2}
+  RDP_WEB_CATEGORIES: ${RDP_WEB_CATEGORIES:-Travel,Mystery,Poetry,Science,Business}
+  RDP_LOG_LEVEL: ${RDP_LOG_LEVEL:-INFO}
+  RDP_LOG_FORMAT: json
+  RDP_DBT_TARGET: ${RDP_DBT_TARGET:-dev}
+  # Failure alerts by email - disabled while RDP_SMTP_HOST / RDP_ALERT_EMAIL_TO are empty.
+  RDP_SMTP_HOST: ${RDP_SMTP_HOST:-}
+  RDP_SMTP_PORT: ${RDP_SMTP_PORT:-587}
+  RDP_SMTP_SECURITY: ${RDP_SMTP_SECURITY:-starttls}
+  RDP_SMTP_USER: ${RDP_SMTP_USER:-}
+  RDP_SMTP_PASSWORD: ${RDP_SMTP_PASSWORD:-}
+  RDP_ALERT_EMAIL_FROM: ${RDP_ALERT_EMAIL_FROM:-}
+  RDP_ALERT_EMAIL_TO: ${RDP_ALERT_EMAIL_TO:-}
+  RDP_AIRFLOW_URL: ${RDP_AIRFLOW_URL:-http://localhost:8080}
+  RDP_DASHBOARD_URL: ${RDP_DASHBOARD_URL:-http://localhost:8501}
+
+x-airflow-common: &airflow-common
+  image: ${IMAGE_PREFIX:-rdp}-airflow:${IMAGE_TAG:-latest}
+  build:
+    context: .
+    dockerfile: docker/airflow.Dockerfile
+  environment: &airflow-env
+    <<: *warehouse-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER:?}:${AIRFLOW_DB_PASSWORD:?}@postgres:5432/${AIRFLOW_DB_NAME:?}
+    AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY:?}
+    AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW_JWT_SECRET:?}
+    AIRFLOW__API__SECRET_KEY: ${AIRFLOW_SECRET_KEY:?}
+    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-apiserver:8080/execution/
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+    AIRFLOW__CORE__PARALLELISM: "8"
+    AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+    AIRFLOW__API__EXPOSE_CONFIG: "false"
+    AIRFLOW__WEBSERVER__WARN_DEPLOYMENT_EXPOSURE: "false"
+    RDP_PIPELINE_SCHEDULE: ${RDP_PIPELINE_SCHEDULE:-@daily}
+  volumes:
+    - airflow-logs:/opt/airflow/logs
+  depends_on: &airflow-depends
+    postgres:
+      condition: service_healthy
+    migrate:
+      condition: service_completed_successfully
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_SUPERUSER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD:?}
+      POSTGRES_DB: postgres
+      AIRFLOW_DB_NAME: ${AIRFLOW_DB_NAME:?}
+      AIRFLOW_DB_USER: ${AIRFLOW_DB_USER:?}
+      AIRFLOW_DB_PASSWORD: ${AIRFLOW_DB_PASSWORD:?}
+      WAREHOUSE_DB_NAME: ${WAREHOUSE_DB_NAME:?}
+      WAREHOUSE_DB_USER: ${WAREHOUSE_DB_USER:?}
+      WAREHOUSE_DB_PASSWORD: ${WAREHOUSE_DB_PASSWORD:?}
+      DASHBOARD_DB_USER: ${DASHBOARD_DB_USER:?}
+      DASHBOARD_DB_PASSWORD: ${DASHBOARD_DB_PASSWORD:?}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      # Healthy only once the warehouse DB (created by the init script) accepts connections,
+      # so dependants never race the first-boot initialisation.
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$WAREHOUSE_DB_NAME\" -h 127.0.0.1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    restart: unless-stopped
+
+  migrate:
+    image: ${IMAGE_PREFIX:-rdp}-app:${IMAGE_TAG:-latest}
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+      target: cli
+    command: ["db", "migrate", "--wait", "120"]
+    environment: *warehouse-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  airflow-init:
+    <<: *airflow-common
+    command: ["version"]
+    environment:
+      <<: *airflow-env
+      _AIRFLOW_DB_MIGRATE: "true"
+      _AIRFLOW_WWW_USER_CREATE: "true"
+      _AIRFLOW_WWW_USER_USERNAME: ${AIRFLOW_ADMIN_USERNAME:-admin}
+      _AIRFLOW_WWW_USER_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD:?}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  airflow-apiserver:
+    <<: *airflow-common
+    command: ["api-server"]
+    ports:
+      - "127.0.0.1:${AIRFLOW_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8080/api/v2/monitor/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      <<: *airflow-depends
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: ["scheduler"]
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8974/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      <<: *airflow-depends
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-dag-processor:
+    <<: *airflow-common
+    command: ["dag-processor"]
+    healthcheck:
+      test: ["CMD-SHELL", "airflow jobs check --job-type DagProcessorJob --hostname \"$${HOSTNAME}\""]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      <<: *airflow-depends
+      airflow-init:
+        condition: service_completed_successfully
+
+  dashboard:
+    image: ${IMAGE_PREFIX:-rdp}-dashboard:${IMAGE_TAG:-latest}
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+      target: dashboard
+    environment:
+      RDP_DB_HOST: postgres
+      RDP_DB_PORT: "5432"
+      RDP_DB_NAME: ${WAREHOUSE_DB_NAME:?}
+      # Read-only role: SELECT on the mart schema only.
+      RDP_DB_USER: ${DASHBOARD_DB_USER:?}
+      RDP_DB_PASSWORD: ${DASHBOARD_DB_PASSWORD:?}
+      RDP_DASHBOARD_CACHE_TTL: ${RDP_DASHBOARD_CACHE_TTL:-300}
+    ports:
+      - "127.0.0.1:${DASHBOARD_PORT:-8501}:8501"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  # One-off tooling container: `docker compose run --rm tools <rdp args>`
+  tools:
+    image: ${IMAGE_PREFIX:-rdp}-app:${IMAGE_TAG:-latest}
+    profiles: ["tools"]
+    environment: *warehouse-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  grafana:
+    image: grafana/grafana-oss:${GRAFANA_VERSION:-12.1.1}
+    profiles: ["observability"]
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_SERVER_ROOT_URL: ${GRAFANA_ROOT_URL:-http://localhost:3000/}
+      WAREHOUSE_DB_NAME: ${WAREHOUSE_DB_NAME:?}
+      DASHBOARD_DB_USER: ${DASHBOARD_DB_USER:?}
+      DASHBOARD_DB_PASSWORD: ${DASHBOARD_DB_PASSWORD:?}
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "127.0.0.1:${GRAFANA_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://localhost:3000/api/health | grep -q ok"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Local SMTP catcher for testing alerts without real credentials (web UI on :8025).
+  # Use RDP_SMTP_HOST=mailpit RDP_SMTP_PORT=1025 RDP_SMTP_SECURITY=none.
+  mailpit:
+    image: axllent/mailpit:${MAILPIT_VERSION:-v1.27}
+    profiles: ["mail"]
+    ports:
+      - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  airflow-logs:
+  grafana-data:
