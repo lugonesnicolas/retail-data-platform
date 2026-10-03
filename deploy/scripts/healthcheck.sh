@@ -10,15 +10,15 @@ check() {
     if "$@" >/dev/null 2>&1; then log "OK   $name"; else log "FAIL $name"; status=1; fi
 }
 
-# shellcheck disable=SC2329 # invoked indirectly through check()
-container_healthy() {
-    local id
-    id="$(compose ps -q "$1")"
-    [[ -n "$id" && "$(docker inspect -f '{{.State.Health.Status}}' "$id")" == healthy ]]
-}
-
 for service in postgres airflow-apiserver airflow-scheduler airflow-dag-processor dashboard caddy; do
-    check "container $service healthy" container_healthy "$service"
+    id="$(compose ps -q "$service" 2>/dev/null || true)"
+    health="$([[ -n "$id" ]] && docker inspect -f '{{.State.Health.Status}}' "$id" || echo missing)"
+    if [[ "$health" == healthy ]]; then
+        log "OK   container $service healthy"
+    else
+        log "FAIL container $service ($health)"
+        status=1
+    fi
 done
 
 check "https://${DOMAIN}/ (dashboard)" curl -fsS --max-time 10 "https://${DOMAIN}/_stcore/health"
