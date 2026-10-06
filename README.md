@@ -1,15 +1,16 @@
 # Retail Data Platform
 
-A small, production-minded data platform that collects retail product observations from three
-different kinds of source, lands them in PostgreSQL, models them with dbt, enforces data quality
-at several layers, orchestrates everything with Apache Airflow and serves the results through a
-Streamlit dashboard. It deploys to a single cloud VM with Docker Compose behind Caddy (HTTPS);
-Terraform for Azure is included.
+[![CI](https://github.com/lugonesnicolas/retail-data-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/lugonesnicolas/retail-data-platform/actions/workflows/ci.yml)
+![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-It is a portfolio project sized for a small workload. The point is the engineering: contracts,
-idempotency, testability, observability and operability. Scale is not the point. Read
-[What would change at scale](#what-would-change-at-scale) before comparing it with a
-big-data stack.
+A small, production-minded data platform. It collects retail product prices from three kinds of
+source (REST API, scraped web pages, versioned CSV), validates them against a canonical data
+contract, loads them idempotently into PostgreSQL, models them with dbt, orchestrates the run with
+Apache Airflow and exposes data quality and pipeline health through a dashboard.
+
+It runs end to end with `make up` and `make pipeline`, deploys to a single VM with Docker Compose,
+and ships Terraform for Azure.
 
 ```mermaid
 flowchart LR
@@ -38,13 +39,71 @@ flowchart LR
     M --> GF[Grafana<br/>optional]
 ```
 
-| Dashboard: overview | Price explorer | Pipeline health | Airflow DAG |
-|---|---|---|---|
-| ![Overview](docs/images/dashboard-overview.png) | ![Price explorer](docs/images/dashboard-price-explorer.png) | ![Pipeline health](docs/images/dashboard-pipeline-health.png) | ![Airflow](docs/images/airflow-dag.png) |
+## What this project demonstrates
 
-<sub>Screenshots from a local run in replay mode.</sub>
+- **Multi-source ingestion**: a paginated REST API, a polite HTML scraper and a CSV dataset behind
+  one `SourceAdapter` protocol, with timeouts, backoff + jitter and `Retry-After` handling.
+- **Canonical data contract**: every record is normalized to a Pydantic `ProductObservation`.
+  Invalid records are stored with field-level errors in `raw.rejected_records`, never dropped.
+- **Idempotent loading**: deterministic `record_hash` + `COPY` + `ON CONFLICT DO NOTHING` into an
+  append-only raw layer. Re-running the same day adds 0 rows.
+- **dbt transformations**: sources with freshness, staging, a conformed intermediate layer, a star
+  schema and analytics/ops marts.
+- **Orchestration with Airflow**: a thin DAG with parallel ingestion, retries and a
+  failure-tolerant tail. Every task is one `rdp` CLI call, so the logic is testable without Airflow.
+- **Data quality at three layers**: contract validation and batch gates at ingestion, 138 dbt
+  tests in the warehouse, and freshness checks. Results land in one table and drive the run's
+  final status.
+- **Observability**: structured JSON logs, `ops.*` run and quality tables, a pipeline-health
+  dashboard and one email alert per failed run.
+- **CI/CD and infrastructure**: GitHub Actions (lint, strict types, tests, dbt, a full Docker
+  stack run), a Docker Compose deployment behind Caddy, and Terraform for Azure.
 
-## What it demonstrates
+## Technology stack
+
+Python 3.12 · PostgreSQL 16 · dbt Core 1.12 + dbt-postgres · Apache Airflow 3.3 (LocalExecutor) ·
+Streamlit + Altair · Docker Compose · pytest · Ruff · mypy (strict) · uv · GitHub Actions ·
+Terraform (Azure) · Caddy 2 · optional Grafana 12.
+
+All Python dependencies are declared in [`pyproject.toml`](pyproject.toml) and pinned in
+[`uv.lock`](uv.lock). Python 3.12 is used everywhere; every major dependency, Airflow 3 included,
+supports it.
+
+## Evidence
+
+Each claim above maps to something you can run or inspect.
+
+| Claim | Proof | Reproduce |
+|---|---|---|
+| Code is linted and type-checked | Ruff and `mypy --strict` gate every PR | `make lint` |
+| Logic is tested | Unit tests (contract, HTTP retry, parsers against fixtures, adapters, quality gates) and PostgreSQL integration tests (migrations, idempotent loads, rejects, quality gate, alerting, CLI exit codes), with coverage reported on every CI run | `make test-unit`, `make test` |
+| Idempotency | [`test_ingestion_is_idempotent`](tests/integration/test_ingestion_to_postgres.py) and `test_restarting_a_run_is_idempotent` | `make test` |
+| Warehouse data is tested | 138 dbt tests (structural, referential, business-rule, custom generic, singular), run in DAG order on every `dbt build`; outcomes are persisted in `ops.data_quality_results` | `make dbt` |
+| The pipeline works end to end | [`test_full_pipeline_produces_tested_gold_data`](tests/integration/test_end_to_end.py): ingestion → dbt → marts → smoke, in deterministic replay mode | `make test` |
+| It runs as a real stack | The CI `docker` job builds the images, runs `make up`, the DAG integrity tests, a full Airflow DAG run and the smoke checks | `make up pipeline smoke` |
+| Airflow orchestration | DAG run in [the screenshot below](#screenshots); DAG integrity tests (shape, retries, alert callback) | `make test-dags` |
+| Pipeline health is visible | **Pipeline health** dashboard page and `mart_pipeline_health` | [screenshots](#screenshots) |
+| Infrastructure is valid | The CI `terraform` job runs `fmt -check`, `init -backend=false` and `validate` | `terraform -chdir=infra/terraform/azure validate` |
+| CI is green | [Workflow runs](https://github.com/lugonesnicolas/retail-data-platform/actions/workflows/ci.yml) | |
+
+## Screenshots
+
+| Dashboard: overview | Pipeline health | Airflow DAG run |
+|---|---|---|
+| <img src="docs/images/dashboard-overview.png" alt="Dashboard overview" width="300"> | <img src="docs/images/dashboard-pipeline-health.png" alt="Pipeline health dashboard" width="300"> | <img src="docs/images/airflow-dag.png" alt="Airflow DAG run" width="300"> |
+
+Also: [price explorer](docs/images/dashboard-price-explorer.png). Screenshots are from a local run
+in replay mode.
+
+## Why this project exists
+
+This project intentionally runs a small workload. The goal is not to simulate Big Data but to
+demonstrate the engineering practices behind reliable, observable and maintainable data
+pipelines: contracts, idempotency, testability and operability. Read
+[What would change at scale](#what-would-change-at-scale) before comparing it with a big-data
+stack.
+
+## Capabilities in detail
 
 | Area | Implementation |
 |---|---|
@@ -58,20 +117,10 @@ flowchart LR
 | Data quality | Ingestion gates, 138 dbt tests (structural, business-rule, custom generic, singular), severities |
 | Orchestration | Airflow 3 (LocalExecutor) DAG with parallel ingestion, backoff retries, failure-tolerant tail |
 | Observability | Structured JSON logs, `ops.*` run/quality tables, ops marts, dashboard, optional Grafana, email alert per failed run |
-| Testing | 69 pytest tests (unit, fixture-based parsers, PostgreSQL integration, CLI), DAG tests |
+| Testing | pytest unit tests (fixture-based parsers, contract, HTTP, quality), PostgreSQL integration tests, CLI tests, DAG tests |
 | Delivery | GitHub Actions CI (lint, types, tests, dbt, Terraform, full Docker stack); manual SSH deploy |
 | Deployment | Single VM, Docker Compose prod overlay, Caddy auto-HTTPS, backup/restore scripts |
 | IaC | Terraform (azurerm 4): network, NSG, static IP, Ubuntu VM with cloud-init |
-
-## Technology stack
-
-Python 3.12 · PostgreSQL 16 · dbt Core 1.12 + dbt-postgres · Apache Airflow 3.3 (LocalExecutor) ·
-Streamlit + Altair · Docker Compose · pytest · Ruff · mypy (strict) · uv · GitHub Actions ·
-Terraform (Azure) · Caddy 2 · optional Grafana 12.
-
-All Python dependencies are declared in [`pyproject.toml`](pyproject.toml) and pinned in
-[`uv.lock`](uv.lock). Python 3.12 is used everywhere; every major dependency, Airflow 3 included,
-supports it.
 
 ## Data sources
 
@@ -209,10 +258,11 @@ in [docs/cloud-deployment.md](docs/cloud-deployment.md).
 ├── dbt/                      dbt project: sources, staging, intermediate, marts, tests, seeds
 ├── deploy/                   prod compose overlay, Caddyfile, bootstrap/deploy/health/backup/restore
 ├── docker/                   app.Dockerfile (cli + dashboard targets), airflow.Dockerfile, postgres init
-├── docs/                     architecture, data model, quality, observability, operations, ADRs
+├── docs/                     architecture, data model, quality, observability, operations, ADRs,
+│                             images/ (screenshots), assets/ (social preview)
 ├── infra/terraform/azure/    VM infrastructure as code
 ├── observability/grafana/    optional Grafana provisioning + dashboard
-├── scripts/                  generate-env.sh, run-dag.sh
+├── scripts/                  generate-env.sh, run-dag.sh, render-social-preview.sh
 ├── src/retail_data_platform/
 │   ├── cli/                  `rdp` command line (Typer)
 │   ├── config/               environment-driven settings
@@ -225,7 +275,7 @@ in [docs/cloud-deployment.md](docs/cloud-deployment.md).
 │   ├── steps.py              pipeline steps (what Airflow orchestrates)
 │   └── smoke.py              smoke checks
 ├── tests/                    unit/, integration/, airflow/, fixtures/
-├── docker-compose.yml  Makefile  pyproject.toml  uv.lock  .env.example
+├── docker-compose.yml  Makefile  pyproject.toml  uv.lock  .env.example  LICENSE
 ```
 
 ## Design decisions
