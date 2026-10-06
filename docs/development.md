@@ -58,8 +58,8 @@ until the tests pass again.
    `normalize(record) -> ProductObservation`. Raise `SourceSchemaError` for structural breakage,
    and let Pydantic raise for record-level violations.
 2. Add the value to `SourceName`, a raw table in a **new** migration
-   (`database/migrations/0003_<name>.sql`; never edit an applied migration, because checksums are
-   verified), and an entry in `RAW_TABLES`.
+   (`database/migrations/<next number>_<name>.sql`, currently `0004_`; never edit an applied
+   migration, because checksums are verified), and an entry in `RAW_TABLES`.
 3. Register it in `ingestion/registry.py` (and a replay transport if it uses HTTP).
 4. dbt: declare the source, add `stg_<name>_products` with the canonical column set, add it to
    the union in `int_product_observations`, and add rows to the `source_catalog`,
@@ -89,3 +89,12 @@ docker build --secret id=ca_bundle,src=/path/to/corp-ca.pem \
 
 With Compose, add the same settings in an override file (`build.secrets`, `build.args`,
 `build.network`) and keep that file out of git.
+
+## Social preview image
+
+`docs/assets/social-preview.svg` is the source of the 1280x640 image used as the GitHub social
+preview. Regenerate the PNG after editing it (needs Node.js and Playwright's Chromium):
+
+```bash
+scripts/render-social-preview.sh     # writes docs/assets/social-preview.png
+```
